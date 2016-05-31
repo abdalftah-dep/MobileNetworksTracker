@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="40dp"
+    android:layout_height="match_parent"
+    android:id="@+id/table_indicator"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
+
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <!-- light green block -->
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_light_green"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <!-- yellow block -->
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_yellow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <!-- orange block -->
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_orange"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <!-- red block -->
+
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <include
+        android:layout_weight="1"
+        style="@style/IndicatorMargin"
+        layout="@layout/row_red"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</TableLayout>

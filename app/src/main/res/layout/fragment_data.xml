@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_transition_header1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <include layout="@layout/indicator_table" />
+
+
+        <!--
+                <TableLayout
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    >
+
+
+
+
+
+                </TableLayout>
+
+        -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="7"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="@string/operator_name"
+                android:textColor="@color/theme_primary_accent"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_operator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Operator"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="@string/network_type"
+                android:textColor="@color/theme_primary_accent"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_operator"
+                android:hint="Network type"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="@string/signal_level"
+                android:textColor="@color/theme_primary_accent"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_type"
+                android:paddingBottom="8dp"
+                android:text="Excellent"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/activity_transition_header1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+
+
+
+        <LinearLayout
+            style="@style/ItemLinearLayout">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.75"
+                android:background="@drawable/ic_cells" />
+
+            <TextView
+                android:id="@+id/tv_lac"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="7"
+                android:text="@string/location_area"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ItemLinearLayout">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.75"
+                android:background="@drawable/ic_cells" />
+
+            <TextView
+                android:id="@+id/tv_ci"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="7"
+                android:text="@string/cell_id"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ItemLinearLayout">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.75"
+                android:background="@drawable/ic_country" />
+
+            <TextView
+                android:id="@+id/tv_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="7"
+                android:text="@string/country"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+
+        <EditText
+            android:id="@+id/json_post_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/http_hint"
+
+            />
+
+        <Button
+            android:id="@+id/json_upload"
+            android:text="JSON Upload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/stop_service"
+            android:text="stop service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/test_database"
+            android:text="test database"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+    <!--
+        <Button
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fab_button"
+            android:transitionName="fab"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/ripple_round"
+            android:stateListAnimator="@anim/fab_anim"
+            android:elevation="4dp"
+            android:layout_below="@+id/activity_transition_header1"
+            android:layout_marginTop="-26dp"
+            android:layout_alignParentEnd="true"
+            />
+            -->
+
+</RelativeLayout>

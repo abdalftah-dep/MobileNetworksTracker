@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_item_new_track"
+        android:icon="@drawable/menu_item_location_on_selector"
+        app:showAsAction="ifRoom"
+        android:title="@string/start_track"/>
+    <item android:id="@+id/menu_item_upload"
+        android:icon="@drawable/ic_cloud_upload_black_48dp"
+        app:showAsAction="never"
+        android:title="@string/upload"/>
+</menu>

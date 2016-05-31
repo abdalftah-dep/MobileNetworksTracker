@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Mobile Networks Tracker</string>
+
+    <string name="signal_level">Рівень сигналу</string>
+    <string name="operator_name">Оператор</string>
+    <string name="network_type">Тип мережі</string>
+
+    <string name="gps_enabled">GPS ввімкнено</string>
+    <string name="gps_disabled">GPS вимкнено</string>
+    <string name="cell_text">Початок в %1$s</string>
+    <string name="new_track">Новий трек</string>
+
+    <string name="delete_track">Видалити</string>
+    <string name="http_hint">http://</string>
+    <string name="start_track">Почати трекінг</string>
+    <string name="stop_track">Зупинити трекінг</string>
+    <string name="upload">Вивантажити на сервер</string>
+
+    <string name="excellent">Відмінний</string>
+    <string name="good">Добрий</string>
+    <string name="sufficient">Достатній</string>
+    <string name="poor">Задовільний</string>
+    <string name="bad">Поганий</string>
+
+    <string name="tab_data">Дані</string>
+    <string name="tab_series">Серії</string>
+    <string name="tab_map">Карта</string>
+
+    <string name="notif_ticker">Відстежування мережі почато</string>
+    <string name="notif_title">Статус відстежування</string>
+    <string name="notif_text">Останнє оновлення в:</string>
+
+</resources>

@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Mobile Networks Tracker</string>
+
+    <string name="signal_level">Signal level</string>
+    <string name="operator_name">Operator</string>
+    <string name="network_type">Network type</string>
+
+    <string name="gps_enabled">GPS Enabled</string>
+    <string name="gps_disabled">GPS Disabled</string>
+    <string name="cell_text">Start at %1$s</string>
+    <string name="new_track">New track</string>
+
+    <string name="delete_track">Delete</string>
+    <string name="http_hint">http://</string>
+    <string name="start_track">Start tracking</string>
+    <string name="stop_track">Stop tracking</string>
+    <string name="upload">Upload to server</string>
+
+    <string name="excellent">Excellent</string>
+    <string name="good">Good</string>
+    <string name="sufficient">Sufficient</string>
+    <string name="poor">Poor</string>
+    <string name="bad">Bad</string>
+
+    <string name="tab_data">Data</string>
+    <string name="tab_series">Series</string>
+    <string name="tab_map">Map</string>
+
+
+</resources>

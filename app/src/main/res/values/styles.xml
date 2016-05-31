@@ -1,0 +1,56 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/theme_primary_light</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="colorAccent">@color/theme_primary_accent</item>
+        <item name="android:windowBackground">@color/theme_window_background</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="AppTheme">
+        <item name="android:textColor">@color/theme_window_background</item>
+    </style>
+
+    <style name="TabRow">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/theme_primary_accent</item>
+    </style>
+
+    <style name="TabRow2">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/theme_primary_dark</item>
+    </style>
+
+
+    <style name="IndicatorRedBackground">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/theme_primary_dark</item>
+    </style>
+
+    <style name="IndicatorMargin">
+        <item name="android:layout_marginTop">1dp</item>
+    </style>
+
+    <style name="ItemLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="ItemLinearLayout.View">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:alpha">0.75</item>
+
+    </style>
+
+
+
+</resources>
