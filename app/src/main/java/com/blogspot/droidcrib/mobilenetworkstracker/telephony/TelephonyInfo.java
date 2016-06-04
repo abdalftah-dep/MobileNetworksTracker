@@ -25,7 +25,7 @@ public class TelephonyInfo {
 
 
 
-    TelephonyInfo(Context context) {
+    public TelephonyInfo(Context context) {
         mContext = context;
         mCustomPhoneStateListener = CustomPhoneStateListener.get();
 
@@ -42,12 +42,12 @@ public class TelephonyInfo {
      * @param context
      * @return
      */
-    public static TelephonyInfo get(Context context) {
-        if (sTelephonyInfo == null) {
-            sTelephonyInfo = new TelephonyInfo(context);
-        }
-        return sTelephonyInfo;
-    }
+//    public static TelephonyInfo get(Context context) {
+//        if (sTelephonyInfo == null) {
+//            sTelephonyInfo = new TelephonyInfo(context);
+//        }
+//        return sTelephonyInfo;
+//    }
 
     /**
      * Provides network Operator name

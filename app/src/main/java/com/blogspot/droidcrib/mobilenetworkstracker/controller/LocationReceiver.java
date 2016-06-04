@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 /**
  * Created by Andrey on 23.01.2016.
  */
@@ -46,6 +48,14 @@ public class LocationReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private PointsToJSONSerializer mSerializer;
     private SimpleDateFormat mSdf;
+    private TelephonyInfo mTelephonyInfo;
+
+
+    @Inject
+    public LocationReceiver(TelephonyInfo telephonyInfo) {
+        super();
+        mTelephonyInfo = telephonyInfo;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -90,11 +100,11 @@ public class LocationReceiver extends BroadcastReceiver {
             screenLock.acquire();
 
             // Get telephony data
-            mOperatorName = TelephonyInfo.get(context).getNetworkOperator();
-            mLac = TelephonyInfo.get(context).getLac();
-            mCi = TelephonyInfo.get(context).getCi();
-            String networkTypeForJSON = TelephonyInfo.get(context).getNetworkTypeForJSON();
-            mSignalStrenghts = TelephonyInfo.get(context).getSignalStrengths();
+            mOperatorName = mTelephonyInfo.getNetworkOperator();
+            mLac = mTelephonyInfo.getLac();
+            mCi = mTelephonyInfo.getCi();
+            String networkTypeForJSON = mTelephonyInfo.getNetworkTypeForJSON();
+            mSignalStrenghts = mTelephonyInfo.getSignalStrengths();
 
             // Release WakeLock mode
             screenLock.release();

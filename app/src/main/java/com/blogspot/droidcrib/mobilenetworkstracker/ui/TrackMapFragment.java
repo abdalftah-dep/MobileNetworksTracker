@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import android.location.Location;
 
+import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.LocationReceiver;
@@ -23,6 +25,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.loaders.TrackIdInMapBoundsPo
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
+import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +35,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+
+import javax.inject.Inject;
 
 /**
  * Created by Andrey on 13.02.2016.
@@ -54,7 +59,10 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
     private float mCurrentZoom = 16.0F;
     private DatabaseHelper.PinPointCursor mPinPointCursor;
     private TrackMapFragment mTrackMapFragment;
-    private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
+
+    @Inject TelephonyInfo mTelephonyInfo;
+
+    private BroadcastReceiver mLocationReceiver = new LocationReceiver(mTelephonyInfo) {
         @Override
         protected void onLocationReceived(Context context, Location loc, int signalStrengths) {
             super.onLocationReceived(context, loc, signalStrengths);
@@ -73,6 +81,14 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
             Toast.makeText(getActivity().getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
         }
     };
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((MobileNetworksTrackerApp)getActivity().getApplication())
+                .getBaseComponent().inject(this);
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

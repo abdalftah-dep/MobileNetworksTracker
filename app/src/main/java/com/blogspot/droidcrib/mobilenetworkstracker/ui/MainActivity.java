@@ -17,11 +17,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.LocationReceiver;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
+
+import javax.inject.Inject;
 
 
 public class MainActivity extends AppCompatActivity implements TrackListFragment.Callbacks {
@@ -32,12 +35,17 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     private TrackManager mTrackManager;
     private Menu mMenu;
     private MenuItem mStartStopTrack;
+    @Inject TelephonyInfo mTelephonyInfo;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewpager);
+
+        ((MobileNetworksTrackerApp)getApplication()).getBaseComponent().inject(this);
+
         // Create TrackManager
         mTrackManager = TrackManager.get(getBaseContext());
 
@@ -122,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         super.onDestroy();
         // stop CustomPhoneStateListener if track is not recording
         if (!mTrackManager.isTrackingRun()) {
-            TelephonyInfo.get(getBaseContext()).stopListener();
+            mTelephonyInfo.stopListener();
         }
     }
 

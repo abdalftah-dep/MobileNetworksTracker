@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.mobilenetworkstracker.ui;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListenerInterface;
@@ -20,6 +22,8 @@ import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
+
+import javax.inject.Inject;
 
 /**
  * Created by abulanov on 10.02.2016.
@@ -45,6 +49,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     private Track mTrack;
     private long mTrackId;
     public static DataFragment sDataFragment;
+    @Inject TelephonyInfo mTelephonyInfo;
 
 
     public static DataFragment getInstance() {
@@ -55,12 +60,19 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         return sDataFragment;
     }
 
-    public static DataFragment newInstance(long trackId) {
-        Bundle args = new Bundle();
-        args.putLong(ARG_TRACK_ID, trackId);
-        DataFragment tf = new DataFragment();
-        tf.setArguments(args);
-        return tf;
+//    public static DataFragment newInstance(long trackId) {
+//        Bundle args = new Bundle();
+//        args.putLong(ARG_TRACK_ID, trackId);
+//        DataFragment tf = new DataFragment();
+//        tf.setArguments(args);
+//        return tf;
+//    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((MobileNetworksTrackerApp)getActivity().getApplication())
+                .getBaseComponent().inject(this);
     }
 
     @Override
@@ -68,8 +80,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        // Create instance of TelephonyInfo
-        TelephonyInfo.get(getActivity());
         CustomPhoneStateListener.get(this);
         Log.d(TAG, "TelephonyInfo.get(getActivity());");
 
@@ -171,12 +181,12 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
      */
     public void updateUI() {
 
-        String operator = TelephonyInfo.get(getContext()).getNetworkOperator();
-        String netType = TelephonyInfo.get(getContext()).getNetworkType();
-        int sigStr = TelephonyInfo.get(getContext()).getSignalStrengths();
-        String lac = TelephonyInfo.get(getContext()).getLac();
-        String ci = TelephonyInfo.get(getContext()).getCi();
-        String country = TelephonyInfo.get(getContext()).getCountryIso().toUpperCase();
+        String operator = mTelephonyInfo.getNetworkOperator();
+        String netType = mTelephonyInfo.getNetworkType();
+        int sigStr = mTelephonyInfo.getSignalStrengths();
+        String lac = mTelephonyInfo.getLac();
+        String ci = mTelephonyInfo.getCi();
+        String country = mTelephonyInfo.getCountryIso().toUpperCase();
 
         mOperatorTextView.setText(operator);
         mNetworkTypeTextView.setText(netType);
@@ -186,7 +196,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mCountryTextView.setText(country);
 
         // Signal level indicator is represented by TableLayout with 64 rows
-        int indicatorLevel = TelephonyInfo.get(getContext()).getSignalStrengths() * (-1) - 51;
+        int indicatorLevel = mTelephonyInfo.getSignalStrengths() * (-1) - 51;
 
         for (int i = 0; i < mTableLayout.getChildCount(); i++) {
 
