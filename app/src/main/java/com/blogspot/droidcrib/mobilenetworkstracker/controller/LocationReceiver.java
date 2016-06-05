@@ -14,6 +14,7 @@ import android.util.Log;
 import android.location.Location;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
+import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.filesystem.PointsToJSONSerializer;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
@@ -51,14 +52,10 @@ public class LocationReceiver extends BroadcastReceiver {
     private TelephonyInfo mTelephonyInfo;
 
 
-    @Inject
-    public LocationReceiver(TelephonyInfo telephonyInfo) {
-        super();
-        mTelephonyInfo = telephonyInfo;
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        mTelephonyInfo = MobileNetworksTrackerApp.getBaseComponent().getTelephonyInfo();
 
         mContext = context;
 

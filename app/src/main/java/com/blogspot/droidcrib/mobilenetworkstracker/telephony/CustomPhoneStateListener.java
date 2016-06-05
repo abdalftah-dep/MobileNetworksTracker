@@ -17,40 +17,13 @@ public class CustomPhoneStateListener extends PhoneStateListener {
 
     private static final String TAG = "mobilenetworkstracker";
 
-    public static CustomPhoneStateListener sCustomPhoneStateListener;
+
     public static int sSignalStrengths = 99;
-    private PhoneStateListenerInterface listenerInterface;
+    private PhoneStateListenerInterface mListenerInterface;
 
-    private CustomPhoneStateListener() {
-        Log.d(TAG, "Empty constructor");
+    public void setInterface(PhoneStateListenerInterface listenerInterface){
+        mListenerInterface = listenerInterface;
     }
-
-    private CustomPhoneStateListener(PhoneStateListenerInterface listenerInterface) {
-        this.listenerInterface = listenerInterface;
-        Log.d(TAG, "Constructor with interface");
-    }
-
-    public static CustomPhoneStateListener get() {
-        if (sCustomPhoneStateListener == null) {
-            sCustomPhoneStateListener = new CustomPhoneStateListener();
-        }
-        return sCustomPhoneStateListener;
-    }
-
-    public static CustomPhoneStateListener get(PhoneStateListenerInterface phoneStateListenerInterface) {
-        if (sCustomPhoneStateListener == null) {
-            sCustomPhoneStateListener = new CustomPhoneStateListener(phoneStateListenerInterface);
-        } else {
-            sCustomPhoneStateListener.setInterface(phoneStateListenerInterface);
-        }
-        return sCustomPhoneStateListener;
-    }
-
-    private void setInterface(PhoneStateListenerInterface listenerInterface){
-        this.listenerInterface = listenerInterface;
-    }
-
-
 
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrengths) {
@@ -65,7 +38,11 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             sSignalStrengths = rssi;
         }
 
-        CustomPhoneStateListener.this.listenerInterface.signalStrengthsChanged(rssi);
+        Log.d(TAG, "CustomPhoneStateListener RSSI " + rssi);
+
+        if(mListenerInterface != null) {
+                    mListenerInterface.signalStrengthsChanged(rssi);
+        }
 
     }
 }

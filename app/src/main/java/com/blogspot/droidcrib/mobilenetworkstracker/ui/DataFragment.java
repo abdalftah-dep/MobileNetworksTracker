@@ -28,7 +28,7 @@ import javax.inject.Inject;
 /**
  * Created by abulanov on 10.02.2016.
  */
-public class DataFragment extends Fragment implements PhoneStateListenerInterface{
+public class DataFragment extends Fragment implements PhoneStateListenerInterface {
 
     public static final String TAG = "mobilenetworkstracker";
     private static final String ARG_TRACK_ID = "TRACK_ID";
@@ -50,6 +50,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     private long mTrackId;
     public static DataFragment sDataFragment;
     @Inject TelephonyInfo mTelephonyInfo;
+    @Inject CustomPhoneStateListener mCustomPhoneStateListener;
 
 
     public static DataFragment getInstance() {
@@ -60,28 +61,18 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         return sDataFragment;
     }
 
-//    public static DataFragment newInstance(long trackId) {
-//        Bundle args = new Bundle();
-//        args.putLong(ARG_TRACK_ID, trackId);
-//        DataFragment tf = new DataFragment();
-//        tf.setArguments(args);
-//        return tf;
-//    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((MobileNetworksTrackerApp)getActivity().getApplication())
                 .getBaseComponent().inject(this);
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
-        CustomPhoneStateListener.get(this);
-        Log.d(TAG, "TelephonyInfo.get(getActivity());");
 
         // Create TrackManager
         mTrackManager = TrackManager.get(getActivity());
@@ -120,6 +111,8 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     public void onResume() {
         super.onResume();
 
+        //set Interface for CustomPhoneStateListener
+        mCustomPhoneStateListener.setInterface(DataFragment.this);
 
         updateUI();
 
@@ -261,6 +254,5 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         if(this.isVisible()){
             updateUI();
         }
-        Log.d(TAG, "DataFragment  RSSI = " + signalStrengths);
     }
 }

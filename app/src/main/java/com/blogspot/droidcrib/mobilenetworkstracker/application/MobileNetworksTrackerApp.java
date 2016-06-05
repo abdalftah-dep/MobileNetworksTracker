@@ -12,7 +12,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.dagger.TelephonyModule;
  */
 public class MobileNetworksTrackerApp extends Application {
 
-    private  BaseComponent mBaseComponent;
+    private static BaseComponent mBaseComponent;
 
     @Override
     public void onCreate() {
@@ -25,7 +25,7 @@ public class MobileNetworksTrackerApp extends Application {
                 .build();
     }
 
-    public  BaseComponent getBaseComponent(){
+    public static BaseComponent getBaseComponent(){
         return mBaseComponent;
     }
 }

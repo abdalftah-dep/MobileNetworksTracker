@@ -2,6 +2,7 @@ package com.blogspot.droidcrib.mobilenetworkstracker.dagger;
 
 import android.app.Application;
 
+import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 
 import javax.inject.Singleton;
@@ -18,8 +19,15 @@ public class TelephonyModule {
 
     @Provides
     @Singleton
-    TelephonyInfo providesTelephonyInfo(Application application){
-        return new TelephonyInfo(application);
+    TelephonyInfo providesTelephonyInfo(Application application, CustomPhoneStateListener customPhoneStateListener){
+        return new TelephonyInfo(application, customPhoneStateListener);
     }
+
+    @Provides
+    @Singleton
+    CustomPhoneStateListener providesCustomPhoneStateListener(){
+        return new CustomPhoneStateListener();
+    }
+
 
 }

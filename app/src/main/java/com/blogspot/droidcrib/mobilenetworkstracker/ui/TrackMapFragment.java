@@ -62,7 +62,7 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
 
     @Inject TelephonyInfo mTelephonyInfo;
 
-    private BroadcastReceiver mLocationReceiver = new LocationReceiver(mTelephonyInfo) {
+    private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
         @Override
         protected void onLocationReceived(Context context, Location loc, int signalStrengths) {
             super.onLocationReceived(context, loc, signalStrengths);

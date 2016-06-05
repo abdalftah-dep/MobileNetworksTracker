@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 
+import javax.inject.Inject;
+
 /**
  * Created by Andrey on 19.03.2016.
  * This class manages telephony functions
@@ -25,9 +27,10 @@ public class TelephonyInfo {
 
 
 
-    public TelephonyInfo(Context context) {
+
+    public TelephonyInfo(Context context, CustomPhoneStateListener customPhoneStateListener) {
         mContext = context;
-        mCustomPhoneStateListener = CustomPhoneStateListener.get();
+        mCustomPhoneStateListener = customPhoneStateListener;
 
         // Provide system service to telephony manager
         mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -36,18 +39,6 @@ public class TelephonyInfo {
         mTelephonyManager.listen(mCustomPhoneStateListener,
                 PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
-
-    /**
-     * Creates instance of TrackManager
-     * @param context
-     * @return
-     */
-//    public static TelephonyInfo get(Context context) {
-//        if (sTelephonyInfo == null) {
-//            sTelephonyInfo = new TelephonyInfo(context);
-//        }
-//        return sTelephonyInfo;
-//    }
 
     /**
      * Provides network Operator name

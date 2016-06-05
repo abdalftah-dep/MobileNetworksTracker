@@ -19,6 +19,8 @@ import android.view.MenuItem;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.LocationReceiver;
+import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
+import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListenerInterface;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
@@ -27,7 +29,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
 import javax.inject.Inject;
 
 
-public class MainActivity extends AppCompatActivity implements TrackListFragment.Callbacks {
+public class MainActivity extends AppCompatActivity implements TrackListFragment.Callbacks{
 
 
     private static final String TAG = "mobilenetworkstracker";
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     private Menu mMenu;
     private MenuItem mStartStopTrack;
     @Inject TelephonyInfo mTelephonyInfo;
+    @Inject
+    CustomPhoneStateListener mCustomPhoneStateListener;
 
 
 
@@ -208,4 +212,5 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         i.setAction(action);
         sendBroadcast(i);
     }
+
 }
