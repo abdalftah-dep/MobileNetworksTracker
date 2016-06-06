@@ -35,7 +35,7 @@ public class TrackManager {
     private long mCurrentTrackId;
 
     // Private constructor
-    private TrackManager(Context appContext) {
+    public TrackManager(Context appContext) {
         mAppContext = appContext;
         mLocationManager = (LocationManager) mAppContext.getSystemService(Context.LOCATION_SERVICE);
         mHelper = new DatabaseHelper(mAppContext);
@@ -44,12 +44,12 @@ public class TrackManager {
     }
 
     // Creates instance of TrackManager
-    public static TrackManager get(Context context) {
-        if (sTrackManager == null) {
-            sTrackManager = new TrackManager(context);
-        }
-        return sTrackManager;
-    }
+//    public static TrackManager get(Context context) {
+//        if (sTrackManager == null) {
+//            sTrackManager = new TrackManager(context);
+//        }
+//        return sTrackManager;
+//    }
 
     // Crates PendingIntent
     private PendingIntent getLocationPendingIntent(boolean shouldCreate) {

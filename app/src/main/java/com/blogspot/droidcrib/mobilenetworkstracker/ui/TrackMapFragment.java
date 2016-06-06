@@ -59,14 +59,14 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
     private float mCurrentZoom = 16.0F;
     private DatabaseHelper.PinPointCursor mPinPointCursor;
     private TrackMapFragment mTrackMapFragment;
-
     @Inject TelephonyInfo mTelephonyInfo;
+    @Inject TrackManager mTrackManager;
 
     private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
         @Override
         protected void onLocationReceived(Context context, Location loc, int signalStrengths) {
             super.onLocationReceived(context, loc, signalStrengths);
-            if (!TrackManager.get(context).isTrackingRun()) {
+            if (!mTrackManager.isTrackingRun()) {
                 return;
             }
             if (isVisible() && mSelectedTrackId == -1) {
@@ -119,7 +119,7 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
         super.onStart();
         getActivity().registerReceiver(mLocationReceiver,
                 new IntentFilter(TrackManager.ACTION_LOCATION_CHANGED));
-        Location lastKnownLocation = TrackManager.get(getContext()).getLastLocation();
+        Location lastKnownLocation = mTrackManager.getLastLocation();
         if (lastKnownLocation != null) {
             drawRealTimePoint(lastKnownLocation, CustomPhoneStateListener.sSignalStrengths);
         }
@@ -230,7 +230,7 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
         mSelectedTrackId = trackId;
         if (mSelectedTrackId != -1) {
             //get first point of track
-            Cursor cur = TrackManager.get(getContext()).queryFirstPinPointForTrack(mSelectedTrackId);
+            Cursor cur = mTrackManager.queryFirstPinPointForTrack(mSelectedTrackId);
             if (cur.moveToFirst()) {
                 double lat = cur.getDouble(0);
                 double lon = cur.getDouble(1);

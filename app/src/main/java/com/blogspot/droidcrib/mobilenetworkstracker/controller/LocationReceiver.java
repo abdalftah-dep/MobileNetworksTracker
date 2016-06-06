@@ -50,12 +50,14 @@ public class LocationReceiver extends BroadcastReceiver {
     private PointsToJSONSerializer mSerializer;
     private SimpleDateFormat mSdf;
     private TelephonyInfo mTelephonyInfo;
+    private TrackManager mTrackManager;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         mTelephonyInfo = MobileNetworksTrackerApp.getBaseComponent().getTelephonyInfo();
+        mTrackManager = MobileNetworksTrackerApp.getBaseComponent().getTrackManager();
 
         mContext = context;
 
@@ -114,8 +116,8 @@ public class LocationReceiver extends BroadcastReceiver {
                     mLac, mCi, mTerminal);
 
             // Add PinPoint record to database
-            TrackManager.get(context).insertPinPoint(pinPoint);
-            if (TrackManager.get(context).isTrackingEnabled()) {
+            mTrackManager.insertPinPoint(pinPoint);
+            if (mTrackManager.isTrackingEnabled()) {
                 startNotification();
             }
 

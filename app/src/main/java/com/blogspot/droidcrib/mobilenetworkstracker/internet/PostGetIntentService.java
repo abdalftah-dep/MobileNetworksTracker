@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
@@ -16,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -27,7 +30,8 @@ public class PostGetIntentService extends IntentService {
     public static final String TAG = "mobilenetworkstracker";
     NotificationManager mNotificationManager;
     HttpConnectionManager mHttpConnectionManager;
-    private TrackManager mTrackManager;
+    @Inject
+    TrackManager mTrackManager;
 
     private static final int ID_NOTIFICATION_UPLOAD = 1;
     private static final String ACTION_POST_LOCATIONS = "com.blogspot.droidcrib.mobilenetworkstracker.action.POST_LOCATIONS";
@@ -52,6 +56,12 @@ public class PostGetIntentService extends IntentService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        ((MobileNetworksTrackerApp)getApplication()).getBaseComponent().inject(this);
+    }
+
+    @Override
     protected void onHandleIntent(Intent intent) {
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (intent != null) {
@@ -69,13 +79,11 @@ public class PostGetIntentService extends IntentService {
      */
     private void handleActionPostLocations(String urlPost) {
         mHttpConnectionManager = new HttpConnectionManager();
-        mTrackManager = TrackManager.get(getApplicationContext());
 
         // TODO: get some READY responce from server before sending data
 
         // Query records of all not uploaded points
-        DatabaseHelper.PinPointCursor cur = TrackManager.get(getApplicationContext())
-                .queryAllNotUploadedPinPoints();
+        DatabaseHelper.PinPointCursor cur = mTrackManager.queryAllNotUploadedPinPoints();
 
         if (cur != null) {
             int maxRecords = cur.getCount();

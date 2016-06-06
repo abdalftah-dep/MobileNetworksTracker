@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
 
     private static final String TAG = "mobilenetworkstracker";
     private ViewPager mViewPager;
-    private TrackManager mTrackManager;
+    @Inject TrackManager mTrackManager;
     private Menu mMenu;
     private MenuItem mStartStopTrack;
     @Inject TelephonyInfo mTelephonyInfo;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         ((MobileNetworksTrackerApp)getApplication()).getBaseComponent().inject(this);
 
         // Create TrackManager
-        mTrackManager = TrackManager.get(getBaseContext());
+       // mTrackManager = TrackManager.get(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

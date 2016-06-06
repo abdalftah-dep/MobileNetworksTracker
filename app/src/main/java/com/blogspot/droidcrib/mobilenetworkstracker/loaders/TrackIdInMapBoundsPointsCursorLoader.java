@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.mobilenetworkstracker.loaders;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 
 /**
@@ -15,6 +16,7 @@ public class TrackIdInMapBoundsPointsCursorLoader extends SQLiteCursorLoader {
     double mLonSw;
     double mLatNe;
     double mLonNe;
+    private TrackManager mTrackManager;
 
     public TrackIdInMapBoundsPointsCursorLoader(Context context, long trackId, double latSw,
                                                 double lonSw, double latNe, double lonNe) {
@@ -24,11 +26,12 @@ public class TrackIdInMapBoundsPointsCursorLoader extends SQLiteCursorLoader {
         mLonSw = lonSw;
         mLatNe = latNe;
         mLonNe = lonNe;
+        mTrackManager = MobileNetworksTrackerApp.getBaseComponent().getTrackManager();
     }
 
     @Override
     protected Cursor loadCursor() {
-        return TrackManager.get(getContext()).queryPinPointsForTrackMapVisibleArea(mTrackId, mLatSw,
+        return mTrackManager.queryPinPointsForTrackMapVisibleArea(mTrackId, mLatSw,
                 mLonSw, mLatNe, mLonNe);
     }
 }

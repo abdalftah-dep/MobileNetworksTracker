@@ -45,7 +45,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     private Button mButtonJsonUpload;
     private Button mButtonStopService;
     private Button mTestDatabase;
-    private TrackManager mTrackManager;
+    @Inject TrackManager mTrackManager;
     private Track mTrack;
     private long mTrackId;
     public static DataFragment sDataFragment;
@@ -75,7 +75,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         setRetainInstance(true);
 
         // Create TrackManager
-        mTrackManager = TrackManager.get(getActivity());
+       // mTrackManager = TrackManager.get(getActivity());
 
 
         // Check Track identifier and get series object
@@ -138,7 +138,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mTestDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor cur = TrackManager.get(getActivity()).queryPinPointsForTrackMapVisibleArea(
+                Cursor cur = mTrackManager.queryPinPointsForTrackMapVisibleArea(
                         0, 49.951671429279884, 33.62251628190279, 49.965991259517104, 33.637965470552444
                 );
 //                Cursor cur = TrackManager.get(getActivity()).queryFirstPinPointForTrack(1);
