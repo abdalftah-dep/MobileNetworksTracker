@@ -10,7 +10,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.dagger.TelephonyModule;
 /**
  * Created by Andrey on 04.06.2016.
  */
-public class MobileNetworksTrackerApp extends Application {
+public class MobileNetworksTrackerApp extends com.activeandroid.app.Application {
 
     private static BaseComponent mBaseComponent;
 

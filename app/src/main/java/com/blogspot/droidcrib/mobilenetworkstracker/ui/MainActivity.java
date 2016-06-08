@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
                 }
                 //Refresh list of tracks when ListFragment is shown
                 if (position == 1) {
-                    TrackListFragment.getInstance().getLoaderManager()
-                            .restartLoader(0, null, TrackListFragment.getInstance());
+//                    TrackListFragment.getInstance().getLoaderManager()
+//                            .restartLoader(0, null, TrackListFragment.getInstance());
                 }
             }
         });
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
                 .findFragmentByTag("android:switcher:" + R.id.pager + ":" + mViewPager.getCurrentItem());
         if (fragment != null) {
             // pass current trackId to fragment if fragment exist
-            ((TrackMapFragment) fragment).onTrackSelected(trackId);
+//            ((TrackMapFragment) fragment).onTrackSelected(trackId);
         }
     }
 

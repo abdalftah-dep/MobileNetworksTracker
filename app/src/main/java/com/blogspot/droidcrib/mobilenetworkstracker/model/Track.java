@@ -1,33 +1,24 @@
 package com.blogspot.droidcrib.mobilenetworkstracker.model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import java.util.Date;
 
 /**
  * Created by Andrey on 31.01.2016.
  */
-public class Track {
 
-    private Date mStartDate;
-    private long mId;
+@Table(name = "Tracks", id = "_id")
+public class Track extends Model{
+
+    @Column(name = "start_date")
+    public Date startDate;
+    @Column(name = "track_id",onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
+    public long trackId;
 
     public Track() {
-        mId = -1;
-        mStartDate = new Date();
     }
 
-    public long getId() {
-        return mId;
-    }
-
-    public void setId(long id) {
-        mId = id;
-    }
-
-    public Date getStartDate() {
-        return mStartDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        mStartDate = startDate;
-    }
 }

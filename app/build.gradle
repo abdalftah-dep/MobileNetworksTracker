@@ -20,10 +20,16 @@ android {
     }
     productFlavors {
     }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'

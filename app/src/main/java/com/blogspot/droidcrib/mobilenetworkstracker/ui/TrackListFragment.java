@@ -25,7 +25,6 @@ import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.loaders.SQLiteCursorLoader;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
-import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper.TrackCursor;
 
 import javax.inject.Inject;
 
@@ -35,7 +34,12 @@ import javax.inject.Inject;
 
 
 
-public class TrackListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
+public class TrackListFragment
+
+       extends ListFragment
+//        implements LoaderCallbacks<Cursor>
+
+{
 
     private static final String TAG = "mobilenetworkstracker";
     private static final int REQUEST_NEW_TRACK = 0;
@@ -119,9 +123,9 @@ public class TrackListFragment extends ListFragment implements LoaderCallbacks<C
         // Get menu item position
         switch (item.getItemId()) {
             case R.id.menu_item_delete_track:
-                mTrackManager.deleteTrack(mTrackId);
-                mTrackManager.deletePinPointsForTrack(mTrackId);
-                getLoaderManager().restartLoader(0, null, this);
+//                mTrackManager.deleteTrack(mTrackId);
+//                mTrackManager.deletePinPointsForTrack(mTrackId);
+//                getLoaderManager().restartLoader(0, null, this);
                 return true;
         }
 
@@ -133,78 +137,78 @@ public class TrackListFragment extends ListFragment implements LoaderCallbacks<C
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_NEW_TRACK == requestCode) {
             // restart loader to get new series
-            getLoaderManager().restartLoader(0, null, this);
+//            getLoaderManager().restartLoader(0, null, this);
         }
     }
 
-    @Override
-    public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
-        return new TrackListCursorLoader(getActivity(), mTrackManager);
-    }
+//    @Override
+//    public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
+//        return new TrackListCursorLoader(getActivity(), mTrackManager);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
+//        // create adapter which references this cursor
+//        TrackCursorAdapter adapter = new TrackCursorAdapter(getActivity(), (TrackCursor)data);
+//        setListAdapter(adapter);
+//    }
+//
+//    @Override
+//    public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
+//        // stop using cursor
+//        setListAdapter(null);
+//    }
 
-    @Override
-    public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
-        // create adapter which references this cursor
-        TrackCursorAdapter adapter = new TrackCursorAdapter(getActivity(), (TrackCursor)data);
-        setListAdapter(adapter);
-    }
+//    /**
+//     * Private adapter class
+//     */
+//    private static class TrackCursorAdapter extends CursorAdapter {
+//
+//        private TrackCursor mTrackCursor;
+//
+//        public TrackCursorAdapter(Context context, TrackCursor c) {
+//            super(context, c, 0);
+//            mTrackCursor = c;
+//        }
+//
+//        @Override
+//        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+//            // Use Inflater to get layout
+//            LayoutInflater inflater = (LayoutInflater) context
+//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            return inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+//        }
+//
+//        @Override
+//        public void bindView(View view, Context context, Cursor cursor) {
+//            // Get series for current line
+//            Track track = mTrackCursor.getTrack();
+//            // Create TextView for begin date
+//            TextView startDateTextView = (TextView) view;
+//            String cellText = context.getString(R.string.cell_text, track.getStartDate());
+//            startDateTextView.setText(cellText);
+//        }
+//    }
 
-    @Override
-    public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
-        // stop using cursor
-        setListAdapter(null);
-    }
-
-    /**
-     * Private adapter class
-     */
-    private static class TrackCursorAdapter extends CursorAdapter {
-
-        private TrackCursor mTrackCursor;
-
-        public TrackCursorAdapter(Context context, TrackCursor c) {
-            super(context, c, 0);
-            mTrackCursor = c;
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            // Use Inflater to get layout
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            return inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            // Get series for current line
-            Track track = mTrackCursor.getTrack();
-            // Create TextView for begin date
-            TextView startDateTextView = (TextView) view;
-            String cellText = context.getString(R.string.cell_text, track.getStartDate());
-            startDateTextView.setText(cellText);
-        }
-    }
-
-    /**
-     * Private CursorLoader class
-     */
-
-    private static class TrackListCursorLoader extends SQLiteCursorLoader{
-
-        private TrackManager innerTrackManager;
-
-        public TrackListCursorLoader(Context context, TrackManager trackManager) {
-            super(context);
-            innerTrackManager = trackManager;
-        }
-
-
-
-        @Override
-        protected Cursor loadCursor() {
-            // request on series list
-            return innerTrackManager.queryTracks();
-        }
-    }
+//    /**
+//     * Private CursorLoader class
+//     */
+//
+//    private static class TrackListCursorLoader extends SQLiteCursorLoader{
+//
+//        private TrackManager innerTrackManager;
+//
+//        public TrackListCursorLoader(Context context, TrackManager trackManager) {
+//            super(context);
+//            innerTrackManager = trackManager;
+//        }
+//
+//
+//
+//        @Override
+//        protected Cursor loadCursor() {
+//            // request on series list
+//            return innerTrackManager.queryAllTracks();
+//        }
+//    }
 }

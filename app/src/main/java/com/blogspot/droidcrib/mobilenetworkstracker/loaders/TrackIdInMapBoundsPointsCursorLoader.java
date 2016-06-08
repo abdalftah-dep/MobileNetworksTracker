@@ -31,7 +31,9 @@ public class TrackIdInMapBoundsPointsCursorLoader extends SQLiteCursorLoader {
 
     @Override
     protected Cursor loadCursor() {
-        return mTrackManager.queryPinPointsForTrackMapVisibleArea(mTrackId, mLatSw,
-                mLonSw, mLatNe, mLonNe);
+        return null;
+
+//                mTrackManager.queryPinPointsForTrackMapVisibleArea(mTrackId, mLatSw,
+//                mLonSw, mLatNe, mLonNe);
     }
 }

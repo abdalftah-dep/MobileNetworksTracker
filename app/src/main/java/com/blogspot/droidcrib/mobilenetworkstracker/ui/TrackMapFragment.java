@@ -41,7 +41,9 @@ import javax.inject.Inject;
 /**
  * Created by Andrey on 13.02.2016.
  */
-public class TrackMapFragment extends SupportMapFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TrackMapFragment extends SupportMapFragment
+//        implements LoaderManager.LoaderCallbacks<Cursor>
+{
 
     private static final String PREFS_FILE = "tracks";
     private static final String PREF_CURRENT_TRACK_ID = "TrackManager.currentTrackId";
@@ -57,7 +59,6 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
     private double mLatNe;
     private double mLonNe;
     private float mCurrentZoom = 16.0F;
-    private DatabaseHelper.PinPointCursor mPinPointCursor;
     private TrackMapFragment mTrackMapFragment;
     @Inject TelephonyInfo mTelephonyInfo;
     @Inject TrackManager mTrackManager;
@@ -137,7 +138,7 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
                 mLatNe = bounds.northeast.latitude;
                 mLonNe = bounds.northeast.longitude;
                 mCurrentZoom = mGoogleMap.getCameraPosition().zoom;
-                getLoaderManager().restartLoader(LOAD_LOCATIONS, null, mTrackMapFragment);
+//                getLoaderManager().restartLoader(LOAD_LOCATIONS, null, mTrackMapFragment);
             }
         });
     }
@@ -154,24 +155,24 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
         getActivity().unregisterReceiver(mLocationReceiver);
     }
 
-    // LoaderCallbacks methods
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new TrackIdInMapBoundsPointsCursorLoader(getContext(), mSelectedTrackId,
-                mLatSw, mLonSw, mLatNe, mLonNe);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mPinPointCursor = (DatabaseHelper.PinPointCursor) data;
-        drawQueriedDataOnMap();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mPinPointCursor.close();
-        mPinPointCursor = null;
-    }
+//    // LoaderCallbacks methods
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        return new TrackIdInMapBoundsPointsCursorLoader(getContext(), mSelectedTrackId,
+//                mLatSw, mLonSw, mLatNe, mLonNe);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        mPinPointCursor = (DatabaseHelper.PinPointCursor) data;
+//        drawQueriedDataOnMap();
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//        mPinPointCursor.close();
+//        mPinPointCursor = null;
+//    }
 
     /**
      * Draws current location marker on map
@@ -198,50 +199,50 @@ public class TrackMapFragment extends SupportMapFragment implements LoaderManage
     /**
      * Draws markers for data queried in CursorLoader
      */
-    private void drawQueriedDataOnMap() {
-
-        if (mSelectedTrackId != -1) {
-            mGoogleMap.clear();
-        }
-        // positions bust
-        mPinPointCursor.moveToFirst();
-        while (!mPinPointCursor.isAfterLast()) {
-            // Get data for marker
-            PinPoint pinPoint = mPinPointCursor.getPinPoint();
-            double lat = pinPoint.getLat();
-            double lon = pinPoint.getLon();
-            int rxLevel = (int) pinPoint.getSignalStrengths();
-
-            // Draw signal level marker
-            CircleOptions circleOptions = new CircleOptions()
-                    .center(new LatLng(lat, lon)).radius(15)
-                    .fillColor(pinPointColor(rxLevel))
-                    .strokeWidth(0);
-            mGoogleMap.addCircle(circleOptions);
-            mPinPointCursor.moveToNext();
-        }
-    }
+//    private void drawQueriedDataOnMap() {
+//
+//        if (mSelectedTrackId != -1) {
+//            mGoogleMap.clear();
+//        }
+//        // positions bust
+//        mPinPointCursor.moveToFirst();
+//        while (!mPinPointCursor.isAfterLast()) {
+//            // Get data for marker
+//            PinPoint pinPoint = mPinPointCursor.getPinPoint();
+//            double lat = pinPoint.getLat();
+//            double lon = pinPoint.getLon();
+//            int rxLevel = (int) pinPoint.getSignalStrengths();
+//
+//            // Draw signal level marker
+//            CircleOptions circleOptions = new CircleOptions()
+//                    .center(new LatLng(lat, lon)).radius(15)
+//                    .fillColor(pinPointColor(rxLevel))
+//                    .strokeWidth(0);
+//            mGoogleMap.addCircle(circleOptions);
+//            mPinPointCursor.moveToNext();
+//        }
+//    }
 
 
     /**
      * Shows selected track data on map
      */
-    public void onTrackSelected(long trackId) {
-        mSelectedTrackId = trackId;
-        if (mSelectedTrackId != -1) {
-            //get first point of track
-            Cursor cur = mTrackManager.queryFirstPinPointForTrack(mSelectedTrackId);
-            if (cur.moveToFirst()) {
-                double lat = cur.getDouble(0);
-                double lon = cur.getDouble(1);
-
-                // move camera to first point
-                LatLng latLng = new LatLng(lat, lon);
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, mCurrentZoom);
-                mGoogleMap.moveCamera(cameraUpdate);
-            }
-        }
-    }
+//    public void onTrackSelected(long trackId) {
+//        mSelectedTrackId = trackId;
+//        if (mSelectedTrackId != -1) {
+//            //get first point of track
+//            Cursor cur = mTrackManager.queryFirstPinPointForTrack(mSelectedTrackId);
+//            if (cur.moveToFirst()) {
+//                double lat = cur.getDouble(0);
+//                double lon = cur.getDouble(1);
+//
+//                // move camera to first point
+//                LatLng latLng = new LatLng(lat, lon);
+//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, mCurrentZoom);
+//                mGoogleMap.moveCamera(cameraUpdate);
+//            }
+//        }
+//    }
 
     /**
      * Provides color value for signal level

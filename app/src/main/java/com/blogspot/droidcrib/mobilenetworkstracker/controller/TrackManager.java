@@ -1,3 +1,17 @@
+// insertTrack(Track track) - Inserts record if a new track into table "track"
+// insertPinPoint(long trackId, PinPoint point) - Inserts new PinPoint data - row that represents PinPoint object into database table
+// queryAllTracks() -  Queries all records from table "track"
+// queryTrack(long id) - Queries single record with defined id from table "track"
+// queryPinPointsForTrack(long trackId) - Queries all PinPoints for given track
+// queryPinPointsForTrackMapVisibleArea(long trackId, double latSw, double lonSw, double latNe, double lonNe) - Queries PinPoints for given track which are within map visible area
+// queryFirstPinPointForTrack(long trackId) - Queries first PinPoint for given track
+// queryFirstNotUploadedPinPoint() - Queries first PinPoint which not uploaded to server yet
+// queryAllNotUploadedPinPoints() - Queries all PinPoints which not uploaded to server yet
+// updateUploadedPinPoint(long pinpointId) - Updates field "upload" of table "location" with TRUE
+// public int deletePinPointsForTrack(long trackId) - Deletes all records with specified track_id from table "location"
+// deleteTrack(long id) - Deletes record with specified id from table "track"
+
+
 package com.blogspot.droidcrib.mobilenetworkstracker.controller;
 
 import android.app.PendingIntent;
@@ -8,11 +22,14 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
+import com.activeandroid.Model;
+import com.activeandroid.query.Select;
 import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper;
-import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper.TrackCursor;
-import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper.PinPointCursor;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Andrey on 07.01.2016.
@@ -38,7 +55,7 @@ public class TrackManager {
     public TrackManager(Context appContext) {
         mAppContext = appContext;
         mLocationManager = (LocationManager) mAppContext.getSystemService(Context.LOCATION_SERVICE);
-        mHelper = new DatabaseHelper(mAppContext);
+//        mHelper = new DatabaseHelper(mAppContext);
         mPrefs = mAppContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mCurrentTrackId = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
     }
@@ -123,86 +140,85 @@ public class TrackManager {
         mPrefs.edit().remove(PREF_IS_TRACKING_ON).commit();
     }
 
+
+
+
     private Track insertTrack() {
         Track track = new Track();
-        track.setId(mHelper.insertTrack(track));
+        track.startDate = new Date();
+        track.save();
         return track;
     }
 
+
     public void insertPinPoint(PinPoint point) {
         if (mCurrentTrackId != -1) {
-            mHelper.insertPinPoint(mCurrentTrackId, point);
+//            mHelper.insertPinPoint(mCurrentTrackId, point);
+
         } else {
             Log.e(TAG, "PinPoint received with no tracking run; ignoring.");
         }
     }
 
-    public TrackCursor queryTracks() {
-        return mHelper.queryTracks();
+    public List<Track> queryAllTracks() {
+        return new Select().from(Track.class).execute();
     }
 
-    public Track getTrack(long id) {
-        Track track = null;
-        TrackCursor cursor = mHelper.queryTrack(id);
-        cursor.moveToFirst();
-        // get series object if line exist
-        if (!cursor.isAfterLast()) {
-            track = cursor.getTrack();
-        }
-        cursor.close();
-        return track;
+    public List<PinPoint> queryAllPinpoints(){
+        return new Select().from(PinPoint.class).execute();
     }
 
-    /**
-     * Queries all PinPoints for given track.
-     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-     *
-     * @param trackId
-     * @return Cursor
-     */
-    public PinPointCursor queryPinPointsForTrack(long trackId) {
-        return mHelper.queryPinPointsForTrack(trackId);
-    }
 
-    /**
-     * Queries first PinPoint which not uploaded to server yet
-     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-     *
-     * @return PinPointCursor
-     */
-    public PinPointCursor queryFirstNotUploadedPinPoint() {
-        return mHelper.queryFirstNotUploadedPinPoint();
-    }
-
-    /**
-     * Queries all PinPoints which were not uploaded to server yet
-     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-     *
-     * @return PinPointCursor
-     */
-    public PinPointCursor queryAllNotUploadedPinPoints() {
-        return mHelper.queryAllNotUploadedPinPoints();
-    }
-
-    public int updateUploadedPinPoint(long pinpointId) {
-        return mHelper.updateUploadedPinPoint(pinpointId);
-    }
-
-    public int deletePinPointsForTrack(long trackId) {
-        return mHelper.deletePinPointsForTrack(trackId);
-    }
-
-    public int deleteTrack(long id) {
-        return mHelper.deleteTrack(id);
-    }
-
-    public PinPointCursor queryPinPointsForTrackMapVisibleArea(
-            long trackId, double latSw, double lonSw, double latNe, double lonNe) {
-        return mHelper.queryPinPointsForTrackMapVisibleArea(trackId, latSw, lonSw, latNe, lonNe);
-    }
-
-    public PinPointCursor queryFirstPinPointForTrack(long trackId) {
-        return mHelper.queryFirstPinPointForTrack(trackId);
-    }
+//    /**
+//     * Queries all PinPoints for given track.
+//     * Fasade for DatabaseHelper.queryPinPointsForTrack.
+//     *
+//     * @param trackId
+//     * @return Cursor
+//     */
+//    public PinPointCursor queryPinPointsForTrack(long trackId) {
+//        return mHelper.queryPinPointsForTrack(trackId);
+//    }
+//
+//    /**
+//     * Queries first PinPoint which not uploaded to server yet
+//     * Fasade for DatabaseHelper.queryPinPointsForTrack.
+//     *
+//     * @return PinPointCursor
+//     */
+//    public PinPointCursor queryFirstNotUploadedPinPoint() {
+//        return mHelper.queryFirstNotUploadedPinPoint();
+//    }
+//
+//    /**
+//     * Queries all PinPoints which were not uploaded to server yet
+//     * Fasade for DatabaseHelper.queryPinPointsForTrack.
+//     *
+//     * @return PinPointCursor
+//     */
+//    public PinPointCursor queryAllNotUploadedPinPoints() {
+//        return mHelper.queryAllNotUploadedPinPoints();
+//    }
+//
+//    public int updateUploadedPinPoint(long pinpointId) {
+//        return mHelper.updateUploadedPinPoint(pinpointId);
+//    }
+//
+//    public int deletePinPointsForTrack(long trackId) {
+//        return mHelper.deletePinPointsForTrack(trackId);
+//    }
+//
+//    public int deleteTrack(long id) {
+//        return mHelper.deleteTrack(id);
+//    }
+//
+//    public PinPointCursor queryPinPointsForTrackMapVisibleArea(
+//            long trackId, double latSw, double lonSw, double latNe, double lonNe) {
+//        return mHelper.queryPinPointsForTrackMapVisibleArea(trackId, latSw, lonSw, latNe, lonNe);
+//    }
+//
+//    public PinPointCursor queryFirstPinPointForTrack(long trackId) {
+//        return mHelper.queryFirstPinPointForTrack(trackId);
+//    }
 
 }

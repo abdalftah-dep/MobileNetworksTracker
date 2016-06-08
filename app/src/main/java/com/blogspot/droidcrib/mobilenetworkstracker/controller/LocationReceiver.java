@@ -111,12 +111,35 @@ public class LocationReceiver extends BroadcastReceiver {
             // Used for UI update
             onLocationReceived(context, loc, mSignalStrenghts);
 
-            // Create new PinPoint
-            PinPoint pinPoint = new PinPoint(mSignalStrenghts, mLat, mLon, mOperatorName, networkTypeForJSON,
-                    mLac, mCi, mTerminal);
+            //TODO: change code below with mTrackManager.insertPinPoint();
+            // Create new PinPoint object and save it to database
+            PinPoint pinPoint = new PinPoint();
+            pinPoint.signalStrengths = mSignalStrenghts;
+            pinPoint.networkType = networkTypeForJSON;
+            pinPoint.lac = mLac;
+            pinPoint.ci = mCi;
+            pinPoint.terminal = mTerminal;
+            pinPoint.lat = mLat;
+            pinPoint.lon = mLon;
+            pinPoint.eventTime = System.currentTimeMillis();
+            pinPoint.operator = mOperatorName;
+            pinPoint.country = "UA";
+            pinPoint.save();
+
+
+
+
+
+
+
+
+
+//            PinPoint pinPoint = new PinPoint(mSignalStrenghts, mLat, mLon, mOperatorName, networkTypeForJSON,
+//                    mLac, mCi, mTerminal);
 
             // Add PinPoint record to database
-            mTrackManager.insertPinPoint(pinPoint);
+            //mTrackManager.insertPinPoint(pinPoint);
+
             if (mTrackManager.isTrackingEnabled()) {
                 startNotification();
             }

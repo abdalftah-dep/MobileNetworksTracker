@@ -1,7 +1,6 @@
 package com.blogspot.droidcrib.mobilenetworkstracker.ui;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +15,15 @@ import android.widget.TextView;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
+import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListenerInterface;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,9 +46,9 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
 
     private Button mButtonJsonUpload;
     private Button mButtonStopService;
-    private Button mTestDatabase;
+    private Button queryAllTracks;
+    private Button queryAllPinpoints;
     @Inject TrackManager mTrackManager;
-    private Track mTrack;
     private long mTrackId;
     public static DataFragment sDataFragment;
     @Inject TelephonyInfo mTelephonyInfo;
@@ -83,7 +85,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         if (args != null) {
             long trackId = args.getLong(ARG_TRACK_ID, -1);
             if (trackId != -1) {
-                mTrack = mTrackManager.getTrack(trackId);
                 mTrackId = trackId;
             }
         }
@@ -100,7 +101,8 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mCountryTextView = (TextView) v.findViewById(R.id.tv_country);
         mJsonPostUrl = (EditText) v.findViewById(R.id.json_post_url);
         mTableLayout = (TableLayout) v.findViewById(R.id.table_indicator);
-        mTestDatabase = (Button) v.findViewById(R.id.test_database);
+        queryAllTracks = (Button) v.findViewById(R.id.query_all_tracks);
+        queryAllPinpoints = (Button) v.findViewById(R.id.query_all_pinpoints);
         mButtonJsonUpload = (Button) v.findViewById(R.id.json_upload);
         mButtonStopService = (Button) v.findViewById(R.id.stop_service);
         return v;
@@ -135,34 +137,40 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             }
         });
 
-        mTestDatabase.setOnClickListener(new View.OnClickListener() {
+        queryAllTracks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor cur = mTrackManager.queryPinPointsForTrackMapVisibleArea(
-                        0, 49.951671429279884, 33.62251628190279, 49.965991259517104, 33.637965470552444
-                );
-//                Cursor cur = TrackManager.get(getActivity()).queryFirstPinPointForTrack(1);
-                if (cur != null) {
-                    int columns = cur.getColumnCount();
-                    if (cur.moveToFirst()) {
+                List<Track> tracksList = mTrackManager.queryAllTracks();
 
-                        String str = "";
-                        // Read table PINPOINTS headers
-                        for (int i = 0; i < columns; i++) {
-                            str += cur.getColumnName(i) + " ";
-                        }
-                        Log.d(TAG, "" + str);
-                        // Read table PINPOINTS query values
-                        do {
-                            str = "";
-                            for (int i = 0; i < columns; i++) {
-                                str += cur.getString(i) + " ";
-                            }
-                            str += "\n";
-                            Log.d(TAG, "" + str);
+                for(int i = 0; i < tracksList.size(); i++){
 
-                        } while (cur.moveToNext());
-                    }
+                    Log.d(TAG, "Table Tracks size: " + tracksList.size());
+
+                    Log.d(TAG, "Table Tracks content: "
+                            + tracksList.get(i).getId()
+                            +  " " + tracksList.get(i).startDate);
+
+                }
+
+            }
+        });
+
+        queryAllPinpoints.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<PinPoint> tracksList = mTrackManager.queryAllPinpoints();
+
+                for(int i = 0; i < tracksList.size(); i++){
+
+                    Log.d(TAG, "Table Tracks size: " + tracksList.size());
+
+                    Log.d(TAG, "Table Tracks content: "
+                            + tracksList.get(i).getId()
+                            +  " operator " + tracksList.get(i).operator
+                            +  " rssi " + tracksList.get(i).signalStrengths
+                            +  " country " + tracksList.get(i).country
+                            +  " time " + tracksList.get(i).eventTime);
+
                 }
             }
         });
