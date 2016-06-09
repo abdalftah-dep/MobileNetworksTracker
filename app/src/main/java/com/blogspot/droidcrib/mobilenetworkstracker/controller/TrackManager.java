@@ -1,8 +1,8 @@
-// insertTrack(Track track) - Inserts record if a new track into table "track"
-// insertPinPoint(long trackId, PinPoint point) - Inserts new PinPoint data - row that represents PinPoint object into database table
-// queryAllTracks() -  Queries all records from table "track"
-// queryTrack(long id) - Queries single record with defined id from table "track"
-// queryPinPointsForTrack(long trackId) - Queries all PinPoints for given track
+// ++ insertTrack(Track track) - Inserts record if a new track into table "track"
+// ++ insertPinPoint(long trackId, PinPoint point) - Inserts new PinPoint data - row that represents PinPoint object into database table
+// ++ queryAllTracks() -  Queries all records from table "track"
+// ?? queryTrack(long id) - Queries single record with defined id from table "track"
+// ++ queryPinPointsForTrack(long trackId) - Queries all PinPoints for given track
 // queryPinPointsForTrackMapVisibleArea(long trackId, double latSw, double lonSw, double latNe, double lonNe) - Queries PinPoints for given track which are within map visible area
 // queryFirstPinPointForTrack(long trackId) - Queries first PinPoint for given track
 // queryFirstNotUploadedPinPoint() - Queries first PinPoint which not uploaded to server yet
@@ -143,7 +143,7 @@ public class TrackManager {
 
 
 
-    private Track insertTrack() {
+    public Track insertTrack() {
         Track track = new Track();
         track.startDate = new Date();
         track.save();
@@ -169,17 +169,18 @@ public class TrackManager {
     }
 
 
-//    /**
-//     * Queries all PinPoints for given track.
-//     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-//     *
-//     * @param trackId
-//     * @return Cursor
-//     */
-//    public PinPointCursor queryPinPointsForTrack(long trackId) {
-//        return mHelper.queryPinPointsForTrack(trackId);
-//    }
-//
+
+    /**
+     * Queries all PinPoints for given track.
+     * Fasade for DatabaseHelper.queryPinPointsForTrack.
+     *
+     * @param trackId
+     * @return Cursor
+     */
+    public List<PinPoint> queryPinPointsForTrack(long trackId) {
+        return new Select().from(PinPoint.class).where("track_id = ?", trackId).execute();
+    }
+
 //    /**
 //     * Queries first PinPoint which not uploaded to server yet
 //     * Fasade for DatabaseHelper.queryPinPointsForTrack.

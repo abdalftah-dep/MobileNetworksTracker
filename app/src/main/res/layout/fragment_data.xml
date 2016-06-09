@@ -197,6 +197,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+
+        <Button
+            android:id="@+id/insert_track"
+            android:text="insert_track"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/query_all_tracks"
             android:text="query all tracks"

@@ -124,6 +124,8 @@ public class LocationReceiver extends BroadcastReceiver {
             pinPoint.eventTime = System.currentTimeMillis();
             pinPoint.operator = mOperatorName;
             pinPoint.country = "UA";
+            pinPoint.upload = false;
+            pinPoint.trackId = 2;
             pinPoint.save();
 
 

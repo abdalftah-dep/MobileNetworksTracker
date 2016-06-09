@@ -46,6 +46,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
 
     private Button mButtonJsonUpload;
     private Button mButtonStopService;
+    private Button insertTrack;
     private Button queryAllTracks;
     private Button queryAllPinpoints;
     @Inject TrackManager mTrackManager;
@@ -101,6 +102,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mCountryTextView = (TextView) v.findViewById(R.id.tv_country);
         mJsonPostUrl = (EditText) v.findViewById(R.id.json_post_url);
         mTableLayout = (TableLayout) v.findViewById(R.id.table_indicator);
+        insertTrack = (Button) v.findViewById(R.id.insert_track);
         queryAllTracks = (Button) v.findViewById(R.id.query_all_tracks);
         queryAllPinpoints = (Button) v.findViewById(R.id.query_all_pinpoints);
         mButtonJsonUpload = (Button) v.findViewById(R.id.json_upload);
@@ -137,18 +139,39 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             }
         });
 
+        insertTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTrackManager.insertTrack();
+            }
+        });
+
+
         queryAllTracks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Track> tracksList = mTrackManager.queryAllTracks();
+                List<PinPoint> tracksList = mTrackManager.queryAllPinpoints();
 
                 for(int i = 0; i < tracksList.size(); i++){
 
-                    Log.d(TAG, "Table Tracks size: " + tracksList.size());
+                    Log.d(TAG, "Table size: " + tracksList.size());
 
-                    Log.d(TAG, "Table Tracks content: "
+                    Log.d(TAG, "Table content: "
                             + tracksList.get(i).getId()
-                            +  " " + tracksList.get(i).startDate);
+                            +  " rssi " + tracksList.get(i).signalStrengths
+                            +  " networkType " + tracksList.get(i).networkType
+                            +  " lac " + tracksList.get(i).lac
+                            +  " ci " + tracksList.get(i).ci
+                            +  " terminal " + tracksList.get(i).terminal
+                            +  " lat " + tracksList.get(i).lat
+                            +  " lon " + tracksList.get(i).lon
+                            +  " time " + tracksList.get(i).eventTime
+                            +  " operator " + tracksList.get(i).operator
+                            +  " country " + tracksList.get(i).country
+                            +  " upload " + tracksList.get(i).upload
+                            +  " track_id " + tracksList.get(i).trackId
+
+                    );
 
                 }
 
@@ -158,18 +181,28 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         queryAllPinpoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<PinPoint> tracksList = mTrackManager.queryAllPinpoints();
+                List<PinPoint> tracksList = mTrackManager.queryPinPointsForTrack(2);
 
                 for(int i = 0; i < tracksList.size(); i++){
 
-                    Log.d(TAG, "Table Tracks size: " + tracksList.size());
+                    Log.d(TAG, "Table size: " + tracksList.size());
 
-                    Log.d(TAG, "Table Tracks content: "
+                    Log.d(TAG, "Table content: "
                             + tracksList.get(i).getId()
-                            +  " operator " + tracksList.get(i).operator
                             +  " rssi " + tracksList.get(i).signalStrengths
+                            +  " networkType " + tracksList.get(i).networkType
+                            +  " lac " + tracksList.get(i).lac
+                            +  " ci " + tracksList.get(i).ci
+                            +  " terminal " + tracksList.get(i).terminal
+                            +  " lat " + tracksList.get(i).lat
+                            +  " lon " + tracksList.get(i).lon
+                            +  " time " + tracksList.get(i).eventTime
+                            +  " operator " + tracksList.get(i).operator
                             +  " country " + tracksList.get(i).country
-                            +  " time " + tracksList.get(i).eventTime);
+                            +  " upload " + tracksList.get(i).upload
+                            +  " track_id " + tracksList.get(i).trackId
+
+                    );
 
                 }
             }

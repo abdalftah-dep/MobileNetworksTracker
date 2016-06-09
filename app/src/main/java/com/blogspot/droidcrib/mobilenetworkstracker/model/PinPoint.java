@@ -39,6 +39,10 @@ public class PinPoint extends Model{
     public String operator;
     @Column(name = "country")
     public String country;
+    @Column(name = "upload")
+    public boolean upload;
+    @Column(name = "track_id")
+    public long trackId;
 
 
     public PinPoint() {
