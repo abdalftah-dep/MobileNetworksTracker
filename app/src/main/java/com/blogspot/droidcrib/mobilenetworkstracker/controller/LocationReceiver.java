@@ -125,7 +125,7 @@ public class LocationReceiver extends BroadcastReceiver {
             pinPoint.operator = mOperatorName;
             pinPoint.country = "UA";
             pinPoint.upload = false;
-            pinPoint.trackId = 2;
+            pinPoint.trackId = 3;
             pinPoint.save();
 
             Log.d(TAG, "insert PinPoint");

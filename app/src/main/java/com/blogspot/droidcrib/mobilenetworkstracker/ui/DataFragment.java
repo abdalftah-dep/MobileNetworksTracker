@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
+import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListenerInterface;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
@@ -53,6 +54,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     private Button insertTrack;
     private Button queryAll;
     private Button queryCondition;
+    private Button dbAction;
     @Inject TrackManager mTrackManager;
     private long mTrackId;
     public static DataFragment sDataFragment;
@@ -109,6 +111,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         insertTrack = (Button) v.findViewById(R.id.insert_track);
         queryAll = (Button) v.findViewById(R.id.query_all);
         queryCondition = (Button) v.findViewById(R.id.query_condition);
+        dbAction = (Button) v.findViewById(R.id.db_action);
         mButtonJsonUpload = (Button) v.findViewById(R.id.json_upload);
         mButtonStopService = (Button) v.findViewById(R.id.stop_service);
         return v;
@@ -155,7 +158,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         queryAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<PinPoint> tracksList = mTrackManager.queryAllPinpoints();
+                List<Track> tracksList = mTrackManager.queryAllTracks();
 
                 Log.d(TAG, "Table size: " + tracksList.size());
 
@@ -163,20 +166,31 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
 
                     Log.d(TAG, "Table content: "
                             + tracksList.get(i).getId()
-                            +  " rssi " + tracksList.get(i).signalStrengths
-                            +  " networkType " + tracksList.get(i).networkType
-                            +  " lac " + tracksList.get(i).lac
-                            +  " ci " + tracksList.get(i).ci
-                            +  " terminal " + tracksList.get(i).terminal
-                            +  " lat " + tracksList.get(i).lat
-                            +  " lon " + tracksList.get(i).lon
-                            +  " time " + tracksList.get(i).eventTime
-                            +  " operator " + tracksList.get(i).operator
-                            +  " country " + tracksList.get(i).country
-                            +  " upload " + tracksList.get(i).upload
+                            +  " _id " + tracksList.get(i).getId()
+                            +  " start_date " + tracksList.get(i).startDate
                             +  " track_id " + tracksList.get(i).trackId
 
                     );
+
+
+
+
+//                    Log.d(TAG, "Table content: "
+//                            + tracksList.get(i).getId()
+//                            +  " rssi " + tracksList.get(i).signalStrengths
+//                            +  " networkType " + tracksList.get(i).networkType
+//                            +  " lac " + tracksList.get(i).lac
+//                            +  " ci " + tracksList.get(i).ci
+//                            +  " terminal " + tracksList.get(i).terminal
+//                            +  " lat " + tracksList.get(i).lat
+//                            +  " lon " + tracksList.get(i).lon
+//                            +  " time " + tracksList.get(i).eventTime
+//                            +  " operator " + tracksList.get(i).operator
+//                            +  " country " + tracksList.get(i).country
+//                            +  " upload " + tracksList.get(i).upload
+//                            +  " track_id " + tracksList.get(i).trackId
+//
+//                    );
 
                 }
 
@@ -186,7 +200,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         queryCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 List<PinPoint> tracksList = mTrackManager.queryAllNotUploadedPinPoints();
 
@@ -212,6 +225,16 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
                     );
 
                 }
+            }
+        });
+
+        dbAction.setOnClickListener(new View.OnClickListener() {
+            int i = 1;
+
+            @Override
+            public void onClick(View v) {
+                mTrackManager.deleteTrack(i);
+                i++;
             }
         });
     }

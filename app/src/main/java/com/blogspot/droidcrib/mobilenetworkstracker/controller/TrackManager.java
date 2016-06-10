@@ -7,9 +7,9 @@
 // queryFirstPinPointForTrack(long trackId) - Queries first PinPoint for given track
 // ++ queryFirstNotUploadedPinPoint() - Queries first PinPoint which not uploaded to server yet
 // ++ queryAllNotUploadedPinPoints() - Queries all PinPoints which not uploaded to server yet
-// updateUploadedPinPoint(long pinpointId) - Updates field "upload" of table "location" with TRUE
-// public int deletePinPointsForTrack(long trackId) - Deletes all records with specified track_id from table "location"
-// deleteTrack(long id) - Deletes record with specified id from table "track"
+// ++ updateUploadedPinPoint(long pinpointId) - Updates field "upload" of table "location" with TRUE
+// ++ deletePinPointsForTrack(long trackId) - Deletes all records with specified track_id from table "location"
+// ++ deleteTrack(long id) - Deletes record with specified id from table "track"
 
 
 package com.blogspot.droidcrib.mobilenetworkstracker.controller;
@@ -23,7 +23,9 @@ import android.location.LocationManager;
 import android.util.Log;
 
 import com.activeandroid.Model;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
@@ -191,18 +193,23 @@ public class TrackManager {
         return new Select().from(PinPoint.class).where("upload = ?", false).execute();
     }
 
-//    public int updateUploadedPinPoint(long pinpointId) {
-//        return mHelper.updateUploadedPinPoint(pinpointId);
-//    }
-//
-//    public int deletePinPointsForTrack(long trackId) {
-//        return mHelper.deletePinPointsForTrack(trackId);
-//    }
-//
-//    public int deleteTrack(long id) {
-//        return mHelper.deleteTrack(id);
-//    }
-//
+    public void updateUploadedPinPoint(long pinpointId) {
+//        new Update(PinPoint.class).set("upload = 'true'").where("id = ?", pinpointId).execute();
+        PinPoint pinPoint = PinPoint.load(PinPoint.class, pinpointId);
+        pinPoint.upload = true;
+        pinPoint.save();
+
+        Log.d(TAG, "PinPoint record number " + pinpointId + " is set to TRUE");
+    }
+
+    public void deletePinPointsForTrack(long trackId) {
+        new Delete().from(PinPoint.class).where("track_id = ?", trackId).execute();
+    }
+
+    public void deleteTrack(long id) {
+        new Delete().from(Track.class).where("_id = ?", id).execute();
+    }
+
 //    public PinPointCursor queryPinPointsForTrackMapVisibleArea(
 //            long trackId, double latSw, double lonSw, double latNe, double lonNe) {
 //        return mHelper.queryPinPointsForTrackMapVisibleArea(trackId, latSw, lonSw, latNe, lonNe);
