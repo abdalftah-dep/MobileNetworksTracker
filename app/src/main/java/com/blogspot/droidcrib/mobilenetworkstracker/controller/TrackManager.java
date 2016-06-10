@@ -5,8 +5,8 @@
 // ++ queryPinPointsForTrack(long trackId) - Queries all PinPoints for given track
 // queryPinPointsForTrackMapVisibleArea(long trackId, double latSw, double lonSw, double latNe, double lonNe) - Queries PinPoints for given track which are within map visible area
 // queryFirstPinPointForTrack(long trackId) - Queries first PinPoint for given track
-// queryFirstNotUploadedPinPoint() - Queries first PinPoint which not uploaded to server yet
-// queryAllNotUploadedPinPoints() - Queries all PinPoints which not uploaded to server yet
+// ++ queryFirstNotUploadedPinPoint() - Queries first PinPoint which not uploaded to server yet
+// ++ queryAllNotUploadedPinPoints() - Queries all PinPoints which not uploaded to server yet
 // updateUploadedPinPoint(long pinpointId) - Updates field "upload" of table "location" with TRUE
 // public int deletePinPointsForTrack(long trackId) - Deletes all records with specified track_id from table "location"
 // deleteTrack(long id) - Deletes record with specified id from table "track"
@@ -172,35 +172,25 @@ public class TrackManager {
 
     /**
      * Queries all PinPoints for given track.
-     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-     *
-     * @param trackId
-     * @return Cursor
      */
     public List<PinPoint> queryPinPointsForTrack(long trackId) {
         return new Select().from(PinPoint.class).where("track_id = ?", trackId).execute();
     }
 
-//    /**
-//     * Queries first PinPoint which not uploaded to server yet
-//     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-//     *
-//     * @return PinPointCursor
-//     */
-//    public PinPointCursor queryFirstNotUploadedPinPoint() {
-//        return mHelper.queryFirstNotUploadedPinPoint();
-//    }
-//
-//    /**
-//     * Queries all PinPoints which were not uploaded to server yet
-//     * Fasade for DatabaseHelper.queryPinPointsForTrack.
-//     *
-//     * @return PinPointCursor
-//     */
-//    public PinPointCursor queryAllNotUploadedPinPoints() {
-//        return mHelper.queryAllNotUploadedPinPoints();
-//    }
-//
+    /**
+     * Queries first PinPoint which not uploaded to server yet
+     */
+    public PinPoint queryFirstNotUploadedPinPoint() {
+        return new Select().from(PinPoint.class).where("upload = ?", false).executeSingle();
+    }
+
+    /**
+     * Queries all PinPoints which were not uploaded to server yet
+     */
+    public List<PinPoint> queryAllNotUploadedPinPoints() {
+        return new Select().from(PinPoint.class).where("upload = ?", false).execute();
+    }
+
 //    public int updateUploadedPinPoint(long pinpointId) {
 //        return mHelper.updateUploadedPinPoint(pinpointId);
 //    }

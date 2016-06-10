@@ -2,6 +2,7 @@ package com.blogspot.droidcrib.mobilenetworkstracker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,9 +22,12 @@ import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListener
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
-import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.inject.Inject;
 
@@ -47,8 +51,8 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     private Button mButtonJsonUpload;
     private Button mButtonStopService;
     private Button insertTrack;
-    private Button queryAllTracks;
-    private Button queryAllPinpoints;
+    private Button queryAll;
+    private Button queryCondition;
     @Inject TrackManager mTrackManager;
     private long mTrackId;
     public static DataFragment sDataFragment;
@@ -103,8 +107,8 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mJsonPostUrl = (EditText) v.findViewById(R.id.json_post_url);
         mTableLayout = (TableLayout) v.findViewById(R.id.table_indicator);
         insertTrack = (Button) v.findViewById(R.id.insert_track);
-        queryAllTracks = (Button) v.findViewById(R.id.query_all_tracks);
-        queryAllPinpoints = (Button) v.findViewById(R.id.query_all_pinpoints);
+        queryAll = (Button) v.findViewById(R.id.query_all);
+        queryCondition = (Button) v.findViewById(R.id.query_condition);
         mButtonJsonUpload = (Button) v.findViewById(R.id.json_upload);
         mButtonStopService = (Button) v.findViewById(R.id.stop_service);
         return v;
@@ -143,18 +147,19 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             @Override
             public void onClick(View v) {
                 mTrackManager.insertTrack();
+                Log.d(TAG, "insertTrack");
             }
         });
 
 
-        queryAllTracks.setOnClickListener(new View.OnClickListener() {
+        queryAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<PinPoint> tracksList = mTrackManager.queryAllPinpoints();
 
-                for(int i = 0; i < tracksList.size(); i++){
+                Log.d(TAG, "Table size: " + tracksList.size());
 
-                    Log.d(TAG, "Table size: " + tracksList.size());
+                for(int i = 0; i < tracksList.size(); i++){
 
                     Log.d(TAG, "Table content: "
                             + tracksList.get(i).getId()
@@ -178,14 +183,16 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             }
         });
 
-        queryAllPinpoints.setOnClickListener(new View.OnClickListener() {
+        queryCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<PinPoint> tracksList = mTrackManager.queryPinPointsForTrack(2);
+
+
+                List<PinPoint> tracksList = mTrackManager.queryAllNotUploadedPinPoints();
+
+                Log.d(TAG, "Table size: " + tracksList.size());
 
                 for(int i = 0; i < tracksList.size(); i++){
-
-                    Log.d(TAG, "Table size: " + tracksList.size());
 
                     Log.d(TAG, "Table content: "
                             + tracksList.get(i).getId()

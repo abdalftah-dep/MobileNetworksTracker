@@ -205,14 +205,14 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/query_all_tracks"
-            android:text="query all tracks"
+            android:id="@+id/query_all"
+            android:text="query all pinpoints"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/query_all_pinpoints"
-            android:text="query all pinpoints"
+            android:id="@+id/query_condition"
+            android:text="query all not upload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -128,6 +128,8 @@ public class LocationReceiver extends BroadcastReceiver {
             pinPoint.trackId = 2;
             pinPoint.save();
 
+            Log.d(TAG, "insert PinPoint");
+
 
 
 
