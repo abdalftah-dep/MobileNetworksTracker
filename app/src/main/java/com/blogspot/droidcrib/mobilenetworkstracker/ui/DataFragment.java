@@ -164,33 +164,34 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
 
                 for(int i = 0; i < tracksList.size(); i++){
 
-                    Log.d(TAG, "Table content: "
+                    Log.d(TAG, "Table TRACK content: "
                             + tracksList.get(i).getId()
                             +  " _id " + tracksList.get(i).getId()
                             +  " start_date " + tracksList.get(i).startDate
-                            +  " track_id " + tracksList.get(i).trackId
 
                     );
 
 
+                    List<PinPoint> pinPoints = mTrackManager.queryAllPinpoints();
 
+                    if(i< pinPoints.size()) {
+                        Log.d(TAG, "Table content: "
+                                + pinPoints.get(i).getId()
+                                + " rssi " + pinPoints.get(i).signalStrengths
+                                + " networkType " + pinPoints.get(i).networkType
+                                + " lac " + pinPoints.get(i).lac
+                                + " ci " + pinPoints.get(i).ci
+                                + " terminal " + pinPoints.get(i).terminal
+                                + " lat " + pinPoints.get(i).lat
+                                + " lon " + pinPoints.get(i).lon
+                                + " time " + pinPoints.get(i).eventTime
+                                + " operator " + pinPoints.get(i).operator
+                                + " country " + pinPoints.get(i).country
+                                + " upload " + pinPoints.get(i).upload
+                                + " track " + pinPoints.get(i).track
 
-//                    Log.d(TAG, "Table content: "
-//                            + tracksList.get(i).getId()
-//                            +  " rssi " + tracksList.get(i).signalStrengths
-//                            +  " networkType " + tracksList.get(i).networkType
-//                            +  " lac " + tracksList.get(i).lac
-//                            +  " ci " + tracksList.get(i).ci
-//                            +  " terminal " + tracksList.get(i).terminal
-//                            +  " lat " + tracksList.get(i).lat
-//                            +  " lon " + tracksList.get(i).lon
-//                            +  " time " + tracksList.get(i).eventTime
-//                            +  " operator " + tracksList.get(i).operator
-//                            +  " country " + tracksList.get(i).country
-//                            +  " upload " + tracksList.get(i).upload
-//                            +  " track_id " + tracksList.get(i).trackId
-//
-//                    );
+                        );
+                    }
 
                 }
 
@@ -220,7 +221,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
                             +  " operator " + tracksList.get(i).operator
                             +  " country " + tracksList.get(i).country
                             +  " upload " + tracksList.get(i).upload
-                            +  " track_id " + tracksList.get(i).trackId
+                            +  " track_id " + tracksList.get(i).track
 
                     );
 

@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
  * POJO contains fields of data measurements
  */
 
-@Table(name = "Pinpoints")
+@Table(name = "Pinpoints", id = "_id")
 public class PinPoint extends Model{
 
     public static final String TAG = "mobilenetworkstracker";
@@ -41,8 +41,8 @@ public class PinPoint extends Model{
     public String country;
     @Column(name = "upload")
     public boolean upload;
-    @Column(name = "track_id")
-    public long trackId;
+    @Column(name = "Track", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
+    public Track track;
 
 
     public PinPoint() {

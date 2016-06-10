@@ -17,6 +17,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.filesystem.PointsToJSONSerializer;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
+import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.ui.MainActivity;
 
@@ -111,6 +112,9 @@ public class LocationReceiver extends BroadcastReceiver {
             // Used for UI update
             onLocationReceived(context, loc, mSignalStrenghts);
 
+            Track mTrackId = new Track();
+            mTrackId.save();
+
             //TODO: change code below with mTrackManager.insertPinPoint();
             // Create new PinPoint object and save it to database
             PinPoint pinPoint = new PinPoint();
@@ -125,7 +129,7 @@ public class LocationReceiver extends BroadcastReceiver {
             pinPoint.operator = mOperatorName;
             pinPoint.country = "UA";
             pinPoint.upload = false;
-            pinPoint.trackId = 3;
+            pinPoint.track = mTrackId;
             pinPoint.save();
 
             Log.d(TAG, "insert PinPoint");

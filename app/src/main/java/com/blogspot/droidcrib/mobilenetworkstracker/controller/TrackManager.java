@@ -194,7 +194,6 @@ public class TrackManager {
     }
 
     public void updateUploadedPinPoint(long pinpointId) {
-//        new Update(PinPoint.class).set("upload = 'true'").where("id = ?", pinpointId).execute();
         PinPoint pinPoint = PinPoint.load(PinPoint.class, pinpointId);
         pinPoint.upload = true;
         pinPoint.save();

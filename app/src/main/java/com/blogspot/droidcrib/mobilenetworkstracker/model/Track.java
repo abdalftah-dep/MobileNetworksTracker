@@ -15,8 +15,6 @@ public class Track extends Model{
 
     @Column(name = "start_date")
     public Date startDate;
-    @Column(name = "track_id",onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
-    public long trackId;
 
     public Track() {
     }

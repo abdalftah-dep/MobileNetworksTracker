@@ -206,7 +206,7 @@
 
         <Button
             android:id="@+id/query_all"
-            android:text="query all pinpoints"
+            android:text="query all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
