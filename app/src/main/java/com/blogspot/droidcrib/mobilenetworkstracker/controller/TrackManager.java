@@ -3,12 +3,12 @@
 // ++ queryAllTracks() -  Queries all records from table "track"
 // ?? queryTrack(long id) - Queries single record with defined id from table "track"
 // ++ queryPinPointsForTrack(long trackId) - Queries all PinPoints for given track
-// queryPinPointsForTrackMapVisibleArea(long trackId, double latSw, double lonSw, double latNe, double lonNe) - Queries PinPoints for given track which are within map visible area
-// queryFirstPinPointForTrack(long trackId) - Queries first PinPoint for given track
+// ++ queryPinPointsForTrackMapVisibleArea(long trackId, double latSw, double lonSw, double latNe, double lonNe) - Queries PinPoints for given track which are within map visible area
+// ++ queryFirstPinPointForTrack(long trackId) - Queries first PinPoint for given track
 // ++ queryFirstNotUploadedPinPoint() - Queries first PinPoint which not uploaded to server yet
 // ++ queryAllNotUploadedPinPoints() - Queries all PinPoints which not uploaded to server yet
 // ++ updateUploadedPinPoint(long pinpointId) - Updates field "upload" of table "location" with TRUE
-// ++ deletePinPointsForTrack(long trackId) - Deletes all records with specified track_id from table "location"
+//not needed ++ deletePinPointsForTrack(long trackId) - Deletes all records with specified track_id from table "location"
 // ++ deleteTrack(long id) - Deletes record with specified id from table "track"
 
 
@@ -57,18 +57,9 @@ public class TrackManager {
     public TrackManager(Context appContext) {
         mAppContext = appContext;
         mLocationManager = (LocationManager) mAppContext.getSystemService(Context.LOCATION_SERVICE);
-//        mHelper = new DatabaseHelper(mAppContext);
         mPrefs = mAppContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mCurrentTrackId = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
     }
-
-    // Creates instance of TrackManager
-//    public static TrackManager get(Context context) {
-//        if (sTrackManager == null) {
-//            sTrackManager = new TrackManager(context);
-//        }
-//        return sTrackManager;
-//    }
 
     // Crates PendingIntent
     private PendingIntent getLocationPendingIntent(boolean shouldCreate) {
@@ -209,13 +200,21 @@ public class TrackManager {
         new Delete().from(Track.class).where("_id = ?", id).execute();
     }
 
-//    public PinPointCursor queryPinPointsForTrackMapVisibleArea(
-//            long trackId, double latSw, double lonSw, double latNe, double lonNe) {
-//        return mHelper.queryPinPointsForTrackMapVisibleArea(trackId, latSw, lonSw, latNe, lonNe);
-//    }
-//
-//    public PinPointCursor queryFirstPinPointForTrack(long trackId) {
-//        return mHelper.queryFirstPinPointForTrack(trackId);
-//    }
+    public List<PinPoint> queryPinPointsForTrackMapVisibleArea(
+            long trackId, double latSw, double lonSw, double latNe, double lonNe) {
+        return new Select()
+                .from(PinPoint.class)
+                .where("track_id = ? AND lat > ? AND lon > ? AND lat < ? AND lon < ?",
+                        trackId, latSw, lonSw, latNe, lonNe)
+                .execute();
+    }
+
+    public PinPoint queryFirstPinPointForTrack(long trackId) {
+        return new Select()
+                .from(PinPoint.class)
+                .where("track_id = ?", trackId)
+                .orderBy("_id ASC")
+                .executeSingle();
+    }
 
 }

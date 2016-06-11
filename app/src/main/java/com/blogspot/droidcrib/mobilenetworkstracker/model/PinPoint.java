@@ -43,6 +43,8 @@ public class PinPoint extends Model{
     public boolean upload;
     @Column(name = "Track", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public Track track;
+    @Column(name = "track_id")
+    public long trackId;
 
 
     public PinPoint() {

@@ -130,6 +130,7 @@ public class LocationReceiver extends BroadcastReceiver {
             pinPoint.country = "UA";
             pinPoint.upload = false;
             pinPoint.track = mTrackId;
+            pinPoint.trackId = mTrackId.getId();
             pinPoint.save();
 
             Log.d(TAG, "insert PinPoint");

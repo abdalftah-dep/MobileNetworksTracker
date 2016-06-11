@@ -177,18 +177,19 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
                     if(i< pinPoints.size()) {
                         Log.d(TAG, "Table content: "
                                 + pinPoints.get(i).getId()
-                                + " rssi " + pinPoints.get(i).signalStrengths
-                                + " networkType " + pinPoints.get(i).networkType
-                                + " lac " + pinPoints.get(i).lac
-                                + " ci " + pinPoints.get(i).ci
-                                + " terminal " + pinPoints.get(i).terminal
-                                + " lat " + pinPoints.get(i).lat
-                                + " lon " + pinPoints.get(i).lon
-                                + " time " + pinPoints.get(i).eventTime
-                                + " operator " + pinPoints.get(i).operator
-                                + " country " + pinPoints.get(i).country
-                                + " upload " + pinPoints.get(i).upload
-                                + " track " + pinPoints.get(i).track
+                                + " rssi= " + pinPoints.get(i).signalStrengths
+                                + " networkType= " + pinPoints.get(i).networkType
+                                + " lac= " + pinPoints.get(i).lac
+                                + " ci= " + pinPoints.get(i).ci
+                                + " terminal= " + pinPoints.get(i).terminal
+                                + " lat= " + pinPoints.get(i).lat
+                                + " lon=" + pinPoints.get(i).lon
+                                + " time= " + pinPoints.get(i).eventTime
+                                + " operator= " + pinPoints.get(i).operator
+                                + " country= " + pinPoints.get(i).country
+                                + " upload= " + pinPoints.get(i).upload
+                                + " track = " + pinPoints.get(i).track
+                                + " track ID = " + pinPoints.get(i).trackId
 
                         );
                     }
@@ -202,26 +203,28 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             @Override
             public void onClick(View v) {
 
-                List<PinPoint> tracksList = mTrackManager.queryAllNotUploadedPinPoints();
+                List<PinPoint> pinPoints = mTrackManager.queryPinPointsForTrackMapVisibleArea(1,
+                        50.430860, 30.4498150, 50.430869, 30.4498159);
 
-                Log.d(TAG, "Table size: " + tracksList.size());
+                Log.d(TAG, "Table size: " + pinPoints.size());
 
-                for(int i = 0; i < tracksList.size(); i++){
+                for(int i = 0; i < pinPoints.size(); i++){
 
                     Log.d(TAG, "Table content: "
-                            + tracksList.get(i).getId()
-                            +  " rssi " + tracksList.get(i).signalStrengths
-                            +  " networkType " + tracksList.get(i).networkType
-                            +  " lac " + tracksList.get(i).lac
-                            +  " ci " + tracksList.get(i).ci
-                            +  " terminal " + tracksList.get(i).terminal
-                            +  " lat " + tracksList.get(i).lat
-                            +  " lon " + tracksList.get(i).lon
-                            +  " time " + tracksList.get(i).eventTime
-                            +  " operator " + tracksList.get(i).operator
-                            +  " country " + tracksList.get(i).country
-                            +  " upload " + tracksList.get(i).upload
-                            +  " track_id " + tracksList.get(i).track
+                            + pinPoints.get(i).getId()
+                            + " rssi= " + pinPoints.get(i).signalStrengths
+                            + " networkType= " + pinPoints.get(i).networkType
+                            + " lac= " + pinPoints.get(i).lac
+                            + " ci= " + pinPoints.get(i).ci
+                            + " terminal= " + pinPoints.get(i).terminal
+                            + " lat= " + pinPoints.get(i).lat
+                            + " lon=" + pinPoints.get(i).lon
+                            + " time= " + pinPoints.get(i).eventTime
+                            + " operator= " + pinPoints.get(i).operator
+                            + " country= " + pinPoints.get(i).country
+                            + " upload= " + pinPoints.get(i).upload
+                            + " track = " + pinPoints.get(i).track
+                            + " track ID = " + pinPoints.get(i).trackId
 
                     );
 
