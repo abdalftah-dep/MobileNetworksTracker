@@ -19,10 +19,10 @@ import android.view.MenuItem;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.LocationReceiver;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.PositioningManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
-import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListenerInterface;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
-import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
 
@@ -34,12 +34,11 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
 
     private static final String TAG = "mobilenetworkstracker";
     private ViewPager mViewPager;
-    @Inject TrackManager mTrackManager;
     private Menu mMenu;
-    private MenuItem mStartStopTrack;
+    @Inject TrackingManager mTrackingManager;
+    @Inject PositioningManager mPositioningManager;
     @Inject TelephonyInfo mTelephonyInfo;
-    @Inject
-    CustomPhoneStateListener mCustomPhoneStateListener;
+    @Inject CustomPhoneStateListener mCustomPhoneStateListener;
 
 
 
@@ -50,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
 
         ((MobileNetworksTrackerApp)getApplication()).getBaseComponent().inject(this);
 
-        // Create TrackManager
-       // mTrackManager = TrackManager.get(getBaseContext());
+        // Create TrackingManager
+       // mTrackingManager = TrackingManager.get(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.tab_series)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.tab_map)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        mStartStopTrack = (MenuItem) findViewById(R.id.menu_item_new_track);
 
         //
         //  Setup ViewPager
@@ -110,20 +107,21 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     @Override
     protected void onResume() {
         super.onResume();
-        // Start tracking if trackingState == false. In other case is already started
-        if (!mTrackManager.isTrackingEnabled()) {
-            Log.d(TAG, "Tracking is enabled = " + mTrackManager.isTrackingEnabled() + " Starting tracking..... ");
-            mTrackManager.startLocationUpdates();
+        // Start location updates on program first start.
+        // "if" checks is required in order not to start intent twice.
+        if (!mTrackingManager.isTrackingOn()) {
+            Log.d(TAG, "Tracking is enabled = " + mTrackingManager.isTrackingOn()
+                    + " Starting tracking..... ");
+            mPositioningManager.startLocationUpdates();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // stop tracking if isTrackingEnabled == false
-        if (!mTrackManager.isTrackingEnabled()) {
-            mTrackManager.stopLocationUpdates();
-            mTrackManager.removeTrackingState();
+        // stop tracking if isTrackingOn == false
+        if (!mTrackingManager.isTrackingOn()) {
+            mPositioningManager.stopLocationUpdates();
             handleNotification(LocationReceiver.ACTION_STOP_NOTIFICATION);
         }
     }
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     protected void onDestroy() {
         super.onDestroy();
         // stop CustomPhoneStateListener if track is not recording
-        if (!mTrackManager.isTrackingRun()) {
+        if (!mPositioningManager.isLocationUpdatesOn()) {
             mTelephonyInfo.stopListener();
         }
     }
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     public boolean onCreateOptionsMenu(Menu menu) {
         this.mMenu = menu;
         getMenuInflater().inflate(R.menu.track_list_options, menu);
-        if (mTrackManager.isTrackingEnabled()) {
+        if (mTrackingManager.isTrackingOn()) {
             mMenu.getItem(0).setIcon(R.drawable.menu_item_location_off_selector);
         }
         return true;
@@ -152,24 +150,20 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_item_new_track) {
-            if (!mTrackManager.isTrackingEnabled()) {
+            if (!mTrackingManager.isTrackingOn()) {
 
                 // Insert record of new track into database
-                mTrackManager.startNewTrack();
+                mTrackingManager.startTracking();
                 // Start notification of tracking
                 handleNotification(LocationReceiver.ACTION_START_NOTIFICATION);
-                // Start tracking
-                mTrackManager.setTrackingState(true);
                 // Change icon
                 mMenu.getItem(0).setIcon(R.drawable.menu_item_location_off_selector);
 
-            } else if (mTrackManager.isTrackingEnabled()) {
+            } else if (mTrackingManager.isTrackingOn()) {
 
-                mTrackManager.stopTrack();
+                mTrackingManager.stopTracking();
                 // Stop notification
                 handleNotification(LocationReceiver.ACTION_STOP_NOTIFICATION);
-                // Stop tracking
-                mTrackManager.setTrackingState(false);
                 // Change icon
                 mMenu.getItem(0).setIcon(R.drawable.menu_item_location_on_selector);
             }

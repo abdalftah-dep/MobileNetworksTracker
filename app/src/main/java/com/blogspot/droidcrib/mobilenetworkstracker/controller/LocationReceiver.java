@@ -15,8 +15,6 @@ import android.location.Location;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
-import com.blogspot.droidcrib.mobilenetworkstracker.filesystem.PointsToJSONSerializer;
-import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.ui.MainActivity;
@@ -24,8 +22,6 @@ import com.blogspot.droidcrib.mobilenetworkstracker.ui.MainActivity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 /**
  * Created by Andrey on 23.01.2016.
@@ -48,17 +44,18 @@ public class LocationReceiver extends BroadcastReceiver {
     private String mOperatorName;
     private Context mContext;
     private NotificationManager mNotificationManager;
-    private PointsToJSONSerializer mSerializer;
     private SimpleDateFormat mSdf;
     private TelephonyInfo mTelephonyInfo;
-    private TrackManager mTrackManager;
+    private TrackingManager mTrackingManager;
+    private DatabaseManager mDatabaseManager;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         mTelephonyInfo = MobileNetworksTrackerApp.getBaseComponent().getTelephonyInfo();
-        mTrackManager = MobileNetworksTrackerApp.getBaseComponent().getTrackManager();
+        mTrackingManager = MobileNetworksTrackerApp.getBaseComponent().getTrackManager();
+        mDatabaseManager = MobileNetworksTrackerApp.getBaseComponent().getDatabaseManager();
 
         mContext = context;
 
@@ -112,44 +109,13 @@ public class LocationReceiver extends BroadcastReceiver {
             // Used for UI update
             onLocationReceived(context, loc, mSignalStrenghts);
 
-            Track mTrackId = new Track();
-            mTrackId.save();
-
-            //TODO: change code below with mTrackManager.insertPinPoint();
-            // Create new PinPoint object and save it to database
-            PinPoint pinPoint = new PinPoint();
-            pinPoint.signalStrengths = mSignalStrenghts;
-            pinPoint.networkType = networkTypeForJSON;
-            pinPoint.lac = mLac;
-            pinPoint.ci = mCi;
-            pinPoint.terminal = mTerminal;
-            pinPoint.lat = mLat;
-            pinPoint.lon = mLon;
-            pinPoint.eventTime = System.currentTimeMillis();
-            pinPoint.operator = mOperatorName;
-            pinPoint.country = "UA";
-            pinPoint.upload = false;
-            pinPoint.track = mTrackId;
-            pinPoint.trackId = mTrackId.getId();
-            pinPoint.save();
-
-            Log.d(TAG, "insert PinPoint");
+            Track track = mDatabaseManager.queryTrack(1);
 
 
-
-
-
-
-
-
-
-//            PinPoint pinPoint = new PinPoint(mSignalStrenghts, mLat, mLon, mOperatorName, networkTypeForJSON,
-//                    mLac, mCi, mTerminal);
-
-            // Add PinPoint record to database
-            //mTrackManager.insertPinPoint(pinPoint);
-
-            if (mTrackManager.isTrackingEnabled()) {
+            if (mTrackingManager.isTrackingOn()) {
+                // Add PinPoint record to database
+                mDatabaseManager.insertPinPoint(track.getId(), mSignalStrenghts, networkTypeForJSON,
+                        mLac, mCi, mTerminal, mLat, mLon, mOperatorName, track);
                 startNotification();
             }
 

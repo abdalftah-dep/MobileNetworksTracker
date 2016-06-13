@@ -4,13 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +14,11 @@ import android.widget.Toast;
 import android.location.Location;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.PositioningManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
-import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.LocationReceiver;
-import com.blogspot.droidcrib.mobilenetworkstracker.loaders.TrackIdInMapBoundsPointsCursorLoader;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
-import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
-import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,7 +40,7 @@ public class TrackMapFragment extends SupportMapFragment
 {
 
     private static final String PREFS_FILE = "tracks";
-    private static final String PREF_CURRENT_TRACK_ID = "TrackManager.currentTrackId";
+    private static final String PREF_CURRENT_TRACK_ID = "TrackingManager.currentTrackId";
     private static final int LOAD_LOCATIONS = 0;
     public static final String TAG = "mobilenetworkstracker";
 
@@ -61,13 +55,14 @@ public class TrackMapFragment extends SupportMapFragment
     private float mCurrentZoom = 16.0F;
     private TrackMapFragment mTrackMapFragment;
     @Inject TelephonyInfo mTelephonyInfo;
-    @Inject TrackManager mTrackManager;
+    @Inject TrackingManager mTrackingManager;
+    @Inject PositioningManager mPositioningManager;
 
     private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
         @Override
         protected void onLocationReceived(Context context, Location loc, int signalStrengths) {
             super.onLocationReceived(context, loc, signalStrengths);
-            if (!mTrackManager.isTrackingRun()) {
+            if (!mPositioningManager.isLocationUpdatesOn()) {
                 return;
             }
             if (isVisible() && mSelectedTrackId == -1) {
@@ -119,8 +114,8 @@ public class TrackMapFragment extends SupportMapFragment
     public void onStart() {
         super.onStart();
         getActivity().registerReceiver(mLocationReceiver,
-                new IntentFilter(TrackManager.ACTION_LOCATION_CHANGED));
-        Location lastKnownLocation = mTrackManager.getLastLocation();
+                new IntentFilter(mPositioningManager.ACTION_LOCATION_CHANGED));
+        Location lastKnownLocation = mPositioningManager.getLastKnownLocation();
         if (lastKnownLocation != null) {
             drawRealTimePoint(lastKnownLocation, CustomPhoneStateListener.sSignalStrengths);
         }
@@ -231,7 +226,7 @@ public class TrackMapFragment extends SupportMapFragment
 //        mSelectedTrackId = trackId;
 //        if (mSelectedTrackId != -1) {
 //            //get first point of track
-//            Cursor cur = mTrackManager.queryFirstPinPointForTrack(mSelectedTrackId);
+//            Cursor cur = mTrackingManager.queryFirstPinPointForTrack(mSelectedTrackId);
 //            if (cur.moveToFirst()) {
 //                double lat = cur.getDouble(0);
 //                double lon = cur.getDouble(1);

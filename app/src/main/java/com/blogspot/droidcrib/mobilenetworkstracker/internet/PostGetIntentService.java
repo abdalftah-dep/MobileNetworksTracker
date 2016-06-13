@@ -1,24 +1,7 @@
 package com.blogspot.droidcrib.mobilenetworkstracker.internet;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.Context;
-import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-
-import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
-import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
-import com.blogspot.droidcrib.mobilenetworkstracker.database.DatabaseHelper;
-import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import javax.inject.Inject;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -46,7 +29,7 @@ public class PostGetIntentService extends IntentService {
 //    NotificationManager mNotificationManager;
 //    HttpConnectionManager mHttpConnectionManager;
 //    @Inject
-//    TrackManager mTrackManager;
+//    TrackingManager mTrackManager;
 //
 //    private static final int ID_NOTIFICATION_UPLOAD = 1;
 //    private static final String ACTION_POST_LOCATIONS = "com.blogspot.droidcrib.mobilenetworkstracker.action.POST_LOCATIONS";

@@ -1,9 +1,10 @@
 package com.blogspot.droidcrib.mobilenetworkstracker.dagger;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.PositioningManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 
 import javax.inject.Singleton;
 
@@ -19,8 +20,21 @@ public class ControllerModule {
 
     @Provides
     @Singleton
-    TrackManager providesTrackManager(Application application){
-        return new TrackManager(application);
+    TrackingManager providesTrackManager(Application application){
+        return new TrackingManager(application);
     }
+
+    @Provides
+    @Singleton
+    PositioningManager providesPositioningManager(Application application){
+        return new PositioningManager(application);
+    }
+
+    @Provides
+    @Singleton
+    DatabaseManager providesDatabaseManager(){
+        return new DatabaseManager();
+    }
+
 
 }

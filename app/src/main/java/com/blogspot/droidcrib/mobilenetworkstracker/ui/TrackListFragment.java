@@ -4,27 +4,19 @@ package com.blogspot.droidcrib.mobilenetworkstracker.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
-import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
-import com.blogspot.droidcrib.mobilenetworkstracker.loaders.SQLiteCursorLoader;
-import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 
 import javax.inject.Inject;
 
@@ -48,7 +40,8 @@ public class TrackListFragment
     private Context mContext;
     private Callbacks mCallbacks;
     private long mTrackId;
-    @Inject TrackManager mTrackManager;
+    @Inject
+    TrackingManager mTrackingManager;
 
 
     public static TrackListFragment getInstance(){
@@ -123,8 +116,8 @@ public class TrackListFragment
         // Get menu item position
         switch (item.getItemId()) {
             case R.id.menu_item_delete_track:
-//                mTrackManager.deleteTrack(mTrackId);
-//                mTrackManager.deletePinPointsForTrack(mTrackId);
+//                mTrackingManager.deleteTrack(mTrackId);
+//                mTrackingManager.deletePinPointsForTrack(mTrackId);
 //                getLoaderManager().restartLoader(0, null, this);
                 return true;
         }
@@ -143,7 +136,7 @@ public class TrackListFragment
 
 //    @Override
 //    public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
-//        return new TrackListCursorLoader(getActivity(), mTrackManager);
+//        return new TrackListCursorLoader(getActivity(), mTrackingManager);
 //    }
 //
 //    @Override
@@ -196,9 +189,9 @@ public class TrackListFragment
 //
 //    private static class TrackListCursorLoader extends SQLiteCursorLoader{
 //
-//        private TrackManager innerTrackManager;
+//        private TrackingManager innerTrackManager;
 //
-//        public TrackListCursorLoader(Context context, TrackManager trackManager) {
+//        public TrackListCursorLoader(Context context, TrackingManager trackManager) {
 //            super(context);
 //            innerTrackManager = trackManager;
 //        }

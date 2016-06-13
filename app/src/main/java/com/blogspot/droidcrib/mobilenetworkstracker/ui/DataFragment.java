@@ -2,7 +2,6 @@ package com.blogspot.droidcrib.mobilenetworkstracker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,20 +14,17 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListenerInterface;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
-import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.inject.Inject;
 
@@ -55,18 +51,19 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     private Button queryAll;
     private Button queryCondition;
     private Button dbAction;
-    @Inject TrackManager mTrackManager;
+    @Inject
+    TrackingManager mTrackingManager;
     private long mTrackId;
     public static DataFragment sDataFragment;
     @Inject TelephonyInfo mTelephonyInfo;
     @Inject CustomPhoneStateListener mCustomPhoneStateListener;
+    @Inject DatabaseManager mDatabaseManager;
 
 
     public static DataFragment getInstance() {
         if (sDataFragment == null) {
             sDataFragment = new DataFragment();
         }
-        //sTrackListFragment.setArguments(args);
         return sDataFragment;
     }
 
@@ -82,10 +79,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
-        // Create TrackManager
-       // mTrackManager = TrackManager.get(getActivity());
-
 
         // Check Track identifier and get series object
         Bundle args = getArguments();
@@ -149,7 +142,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         insertTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTrackManager.insertTrack();
                 Log.d(TAG, "insertTrack");
             }
         });
@@ -158,7 +150,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         queryAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Track> tracksList = mTrackManager.queryAllTracks();
+                List<Track> tracksList = mDatabaseManager.queryAllTracks();
 
                 Log.d(TAG, "Table size: " + tracksList.size());
 
@@ -172,7 +164,9 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
                     );
 
 
-                    List<PinPoint> pinPoints = mTrackManager.queryAllPinpoints();
+                    List<PinPoint> pinPoints = mDatabaseManager.queryAllPinpoints();
+
+                    Log.d(TAG, "Table PINPOINT size: " + pinPoints.size());
 
                     if(i< pinPoints.size()) {
                         Log.d(TAG, "Table content: "
@@ -203,32 +197,8 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             @Override
             public void onClick(View v) {
 
-                List<PinPoint> pinPoints = mTrackManager.queryPinPointsForTrackMapVisibleArea(1,
-                        50.430860, 30.4498150, 50.430869, 30.4498159);
 
-                Log.d(TAG, "Table size: " + pinPoints.size());
 
-                for(int i = 0; i < pinPoints.size(); i++){
-
-                    Log.d(TAG, "Table content: "
-                            + pinPoints.get(i).getId()
-                            + " rssi= " + pinPoints.get(i).signalStrengths
-                            + " networkType= " + pinPoints.get(i).networkType
-                            + " lac= " + pinPoints.get(i).lac
-                            + " ci= " + pinPoints.get(i).ci
-                            + " terminal= " + pinPoints.get(i).terminal
-                            + " lat= " + pinPoints.get(i).lat
-                            + " lon=" + pinPoints.get(i).lon
-                            + " time= " + pinPoints.get(i).eventTime
-                            + " operator= " + pinPoints.get(i).operator
-                            + " country= " + pinPoints.get(i).country
-                            + " upload= " + pinPoints.get(i).upload
-                            + " track = " + pinPoints.get(i).track
-                            + " track ID = " + pinPoints.get(i).trackId
-
-                    );
-
-                }
             }
         });
 
@@ -237,7 +207,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
 
             @Override
             public void onClick(View v) {
-                mTrackManager.deleteTrack(i);
+                mDatabaseManager.deleteTrack(i);
                 i++;
             }
         });
