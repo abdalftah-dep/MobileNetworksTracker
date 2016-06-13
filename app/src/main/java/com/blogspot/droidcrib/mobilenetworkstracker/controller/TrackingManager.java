@@ -47,6 +47,10 @@ public class TrackingManager {
         mCurrentTrackId = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
     }
 
+    /**
+     * Starts network tracking
+     */
+
     public void startTracking() {
         Track track = new Track();
         track.startDate = new Date();
@@ -54,22 +58,28 @@ public class TrackingManager {
         // Get Id
         mCurrentTrackId = track.getId();
         // Save id in shared prefs
-        mPrefs.edit().putLong(PREF_CURRENT_TRACK_ID, mCurrentTrackId).commit();
-        mPrefs.edit().putBoolean(PREF_IS_TRACKING_ON, true).commit();
-        // Start tracking location
-        //startLocationUpdates();
+        mPrefs.edit().putLong(PREF_CURRENT_TRACK_ID, mCurrentTrackId).apply();
+        mPrefs.edit().putBoolean(PREF_IS_TRACKING_ON, true).apply();
+        Log.d(TAG, "startTracking called");
     }
 
+
+    /**
+     * Stops network tracking
+     */
     public void stopTracking() {
-        //stopLocationUpdates();
         mCurrentTrackId = -1;
-        mPrefs.edit().remove(PREF_CURRENT_TRACK_ID).commit();
-        mPrefs.edit().remove(PREF_IS_TRACKING_ON).commit();
+        mPrefs.edit().remove(PREF_CURRENT_TRACK_ID).apply();
+        mPrefs.edit().remove(PREF_IS_TRACKING_ON).apply();
+        Log.d(TAG, "stopTracking called");
     }
 
-
-
+    /**
+     * Provides network tracking status
+     * @return
+     */
     public boolean isTrackingOn() {
+        Log.d(TAG, "isTrackingOn: " + (mPrefs.getBoolean(PREF_IS_TRACKING_ON, false)));
         return mPrefs.getBoolean(PREF_IS_TRACKING_ON, false);
     }
 

@@ -62,7 +62,7 @@ public class TrackMapFragment extends SupportMapFragment
         @Override
         protected void onLocationReceived(Context context, Location loc, int signalStrengths) {
             super.onLocationReceived(context, loc, signalStrengths);
-            if (!mPositioningManager.isLocationUpdatesOn()) {
+            if (!mPositioningManager.isLocationUpdatesEnabled()) {
                 return;
             }
             if (isVisible() && mSelectedTrackId == -1) {

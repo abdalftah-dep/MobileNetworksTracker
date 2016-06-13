@@ -107,11 +107,8 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     @Override
     protected void onResume() {
         super.onResume();
-        // Start location updates on program first start.
-        // "if" checks is required in order not to start intent twice.
-        if (!mTrackingManager.isTrackingOn()) {
-            Log.d(TAG, "Tracking is enabled = " + mTrackingManager.isTrackingOn()
-                    + " Starting tracking..... ");
+        // Start location updates on program first start if not started yet
+        if (!mPositioningManager.isLocationUpdatesEnabled()) {
             mPositioningManager.startLocationUpdates();
         }
     }
@@ -130,11 +127,15 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // stop CustomPhoneStateListener if track is not recording
-        if (!mPositioningManager.isLocationUpdatesOn()) {
+        // stop mobile network listening if track is not recording
+        if (!mTrackingManager.isTrackingOn()) {
             mTelephonyInfo.stopListener();
         }
     }
+
+    /**
+     * Create menu
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         }
         return true;
     }
+
+    /**
+     * Menu item selected
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

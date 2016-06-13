@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 /**
  * Created by abulanov on 13.06.2016.
  */
 public class PositioningManager {
+
+    private static final String TAG = "mobilenetworkstracker";
 
     public static final String ACTION_LOCATION_CHANGED = "com.blogspot.droidcrib.mobilenetworkstracker.action.LOCATION_CHANGED";
 
@@ -19,9 +22,13 @@ public class PositioningManager {
     public PositioningManager(Context applicationContext) {
         mContext = applicationContext;
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        Log.d(TAG, "PositioningManager started");
     }
 
-    // Starts location updates
+    /**
+     * Starts location updates
+     */
+
     public void startLocationUpdates() {
         String providerGps = LocationManager.GPS_PROVIDER;
         String providerNetwork = LocationManager.NETWORK_PROVIDER;
@@ -29,19 +36,27 @@ public class PositioningManager {
         PendingIntent pi = getLocationPendingIntent(true);
         mLocationManager.requestLocationUpdates(providerGps, 0, 15, pi);
         mLocationManager.requestLocationUpdates(providerNetwork, 0, 15, pi);
+        Log.d(TAG, "startLocationUpdates called");
     }
 
-    // Stops location updates
+    /**
+     * Stops location updates
+     */
     public void stopLocationUpdates() {
         PendingIntent pi = getLocationPendingIntent(false);
         if (pi != null) {
             mLocationManager.removeUpdates(pi);
             pi.cancel();
         }
+        Log.d(TAG, "stopLocationUpdates called");
     }
 
-    //
-    public boolean isLocationUpdatesOn() {
+    /**
+     * Provides location updates status
+     * @return
+     */
+    public boolean isLocationUpdatesEnabled() {
+        Log.d(TAG, "isLocationUpdatesEnabled: " + (getLocationPendingIntent(false) != null));
         return getLocationPendingIntent(false) != null;
     }
 

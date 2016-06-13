@@ -109,15 +109,16 @@ public class LocationReceiver extends BroadcastReceiver {
             // Used for UI update
             onLocationReceived(context, loc, mSignalStrenghts);
 
+            //TODO: put track ID here
             Track track = mDatabaseManager.queryTrack(1);
 
 
-            if (mTrackingManager.isTrackingOn()) {
-                // Add PinPoint record to database
-                mDatabaseManager.insertPinPoint(track.getId(), mSignalStrenghts, networkTypeForJSON,
-                        mLac, mCi, mTerminal, mLat, mLon, mOperatorName, track);
-                startNotification();
-            }
+//            if (mTrackingManager.isTrackingOn()) {
+//                // Add PinPoint record to database
+//                mDatabaseManager.insertPinPoint(track.getId(), mSignalStrenghts, networkTypeForJSON,
+//                        mLac, mCi, mTerminal, mLat, mLon, mOperatorName, track);
+//                startNotification();
+//            }
 
             return;
         }
