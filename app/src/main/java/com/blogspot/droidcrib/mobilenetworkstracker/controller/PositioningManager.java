@@ -22,7 +22,7 @@ public class PositioningManager {
     public PositioningManager(Context applicationContext) {
         mContext = applicationContext;
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        Log.d(TAG, "PositioningManager started");
+        Log.d(TAG, "Position Manager started");
     }
 
     /**
@@ -34,9 +34,10 @@ public class PositioningManager {
         String providerNetwork = LocationManager.NETWORK_PROVIDER;
         // Launch updates from LocationManager
         PendingIntent pi = getLocationPendingIntent(true);
-        mLocationManager.requestLocationUpdates(providerGps, 0, 15, pi);
-        mLocationManager.requestLocationUpdates(providerNetwork, 0, 15, pi);
-        Log.d(TAG, "startLocationUpdates called");
+        mLocationManager.requestLocationUpdates(providerGps, 0, 0, pi);
+        mLocationManager.requestLocationUpdates(providerNetwork, 0, 0, pi);
+        Log.d(TAG, "Location updates started");
+
     }
 
     /**
@@ -48,7 +49,7 @@ public class PositioningManager {
             mLocationManager.removeUpdates(pi);
             pi.cancel();
         }
-        Log.d(TAG, "stopLocationUpdates called");
+        Log.d(TAG, "Location updates stopped");
     }
 
     /**
@@ -56,8 +57,9 @@ public class PositioningManager {
      * @return
      */
     public boolean isLocationUpdatesEnabled() {
-        Log.d(TAG, "isLocationUpdatesEnabled: " + (getLocationPendingIntent(false) != null));
+        Log.d(TAG, "Is location updates enabled: " + (getLocationPendingIntent(false) != null) );
         return getLocationPendingIntent(false) != null;
+
     }
 
     // Returns last known location

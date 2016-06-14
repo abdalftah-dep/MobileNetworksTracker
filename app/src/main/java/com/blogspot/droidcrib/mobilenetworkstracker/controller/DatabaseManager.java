@@ -28,7 +28,6 @@ public class DatabaseManager {
     public void insertPinPoint(long trackId, int signalStrenghts, String networkTypeForJSON, String lac,
                                String ci, String terminal, double lat, double lon,
                                String operatorName, Track track) {
-        if (trackId != -1) {
             PinPoint pinPoint = new PinPoint();
             pinPoint.signalStrengths = signalStrenghts;
             pinPoint.networkType = networkTypeForJSON;
@@ -46,10 +45,6 @@ public class DatabaseManager {
             pinPoint.save();
 
             Log.d(TAG, "insert PinPoint");
-
-        } else {
-            Log.e(TAG, "PinPoint received with no tracking run; ignoring.");
-        }
     }
 
     public List<Track> queryAllTracks() {

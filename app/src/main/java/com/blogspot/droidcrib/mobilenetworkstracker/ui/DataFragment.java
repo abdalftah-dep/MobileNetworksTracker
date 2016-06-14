@@ -151,9 +151,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             @Override
             public void onClick(View v) {
                 List<Track> tracksList = mDatabaseManager.queryAllTracks();
-
                 Log.d(TAG, "Table size: " + tracksList.size());
-
                 for(int i = 0; i < tracksList.size(); i++){
 
                     Log.d(TAG, "Table TRACK content: "
@@ -162,33 +160,30 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
                             +  " start_date " + tracksList.get(i).startDate
 
                     );
-
-
-                    List<PinPoint> pinPoints = mDatabaseManager.queryAllPinpoints();
-
-                    Log.d(TAG, "Table PINPOINT size: " + pinPoints.size());
-
-                    if(i< pinPoints.size()) {
-                        Log.d(TAG, "Table content: "
-                                + pinPoints.get(i).getId()
-                                + " rssi= " + pinPoints.get(i).signalStrengths
-                                + " networkType= " + pinPoints.get(i).networkType
-                                + " lac= " + pinPoints.get(i).lac
-                                + " ci= " + pinPoints.get(i).ci
-                                + " terminal= " + pinPoints.get(i).terminal
-                                + " lat= " + pinPoints.get(i).lat
-                                + " lon=" + pinPoints.get(i).lon
-                                + " time= " + pinPoints.get(i).eventTime
-                                + " operator= " + pinPoints.get(i).operator
-                                + " country= " + pinPoints.get(i).country
-                                + " upload= " + pinPoints.get(i).upload
-                                + " track = " + pinPoints.get(i).track
-                                + " track ID = " + pinPoints.get(i).trackId
-
-                        );
-                    }
-
                 }
+
+                List<PinPoint> pinPoints = mDatabaseManager.queryAllPinpoints();
+                Log.d(TAG, "Table PINPOINT size: " + pinPoints.size());
+
+                for(int i = 0; i < pinPoints.size(); i++){
+                    Log.d(TAG, "Table content: "
+                            + pinPoints.get(i).getId()
+                            + " rssi= " + pinPoints.get(i).signalStrengths
+                            + " networkType= " + pinPoints.get(i).networkType
+                            + " lac= " + pinPoints.get(i).lac
+                            + " ci= " + pinPoints.get(i).ci
+                            + " terminal= " + pinPoints.get(i).terminal
+                            + " lat= " + pinPoints.get(i).lat
+                            + " lon=" + pinPoints.get(i).lon
+                            + " time= " + pinPoints.get(i).eventTime
+                            + " operator= " + pinPoints.get(i).operator
+                            + " country= " + pinPoints.get(i).country
+                            + " upload= " + pinPoints.get(i).upload
+                            + " track = " + pinPoints.get(i).track
+                            + " track ID = " + pinPoints.get(i).trackId
+                    );
+                }
+
 
             }
         });

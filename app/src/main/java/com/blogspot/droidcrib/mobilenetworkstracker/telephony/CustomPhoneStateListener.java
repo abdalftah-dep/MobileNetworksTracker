@@ -38,8 +38,6 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             sSignalStrengths = rssi;
         }
 
-        Log.d(TAG, "CustomPhoneStateListener RSSI " + rssi);
-
         if(mListenerInterface != null) {
                     mListenerInterface.signalStrengthsChanged(rssi);
         }

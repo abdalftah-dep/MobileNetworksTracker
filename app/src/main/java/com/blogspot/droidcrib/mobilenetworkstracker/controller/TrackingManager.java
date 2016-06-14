@@ -33,7 +33,7 @@ public class TrackingManager {
 
     private static final String TAG = "mobilenetworkstracker";
 
-    private static final String PREFS_FILE = "tracks";
+    public static final String PREFS_FILE = "tracks";
     public static final String PREF_CURRENT_TRACK_ID = "TrackingManager.currentTrackId";
     private static final String PREF_IS_TRACKING_ON = "TrackingManager.isTrackingOn";
     private Context mAppContext;
@@ -45,6 +45,7 @@ public class TrackingManager {
         mAppContext = appContext;
         mPrefs = mAppContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mCurrentTrackId = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
+        Log.d(TAG, "Tracking Manager started");
     }
 
     /**
@@ -60,7 +61,9 @@ public class TrackingManager {
         // Save id in shared prefs
         mPrefs.edit().putLong(PREF_CURRENT_TRACK_ID, mCurrentTrackId).apply();
         mPrefs.edit().putBoolean(PREF_IS_TRACKING_ON, true).apply();
-        Log.d(TAG, "startTracking called, track ID: " + mCurrentTrackId);
+        long trackid = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
+        boolean istracking = mPrefs.getBoolean(PREF_IS_TRACKING_ON, false);
+        Log.d(TAG, "Tracking started, trackid = " + trackid + " " + istracking);
     }
 
 
@@ -71,7 +74,9 @@ public class TrackingManager {
         mCurrentTrackId = -1;
         mPrefs.edit().remove(PREF_CURRENT_TRACK_ID).apply();
         mPrefs.edit().remove(PREF_IS_TRACKING_ON).apply();
-        Log.d(TAG, "stopTracking called");
+        long trackid = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
+        boolean istracking = mPrefs.getBoolean(PREF_IS_TRACKING_ON, false);
+        Log.d(TAG, "Tracking stopped trackid = "+ trackid + " " + istracking);
     }
 
     /**
@@ -79,7 +84,7 @@ public class TrackingManager {
      * @return
      */
     public boolean isTrackingOn() {
-        Log.d(TAG, "isTrackingOn: " + (mPrefs.getBoolean(PREF_IS_TRACKING_ON, false)));
+        Log.d(TAG, "Is tracking enabled: " + (mPrefs.getBoolean(PREF_IS_TRACKING_ON, false)));
         return mPrefs.getBoolean(PREF_IS_TRACKING_ON, false);
     }
 

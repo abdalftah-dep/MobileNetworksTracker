@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.PowerManager;
@@ -59,6 +60,7 @@ public class LocationReceiver extends BroadcastReceiver {
 
         mContext = context;
 
+
         // Initialize notification manager
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String action = intent.getAction();
@@ -80,6 +82,8 @@ public class LocationReceiver extends BroadcastReceiver {
             // Get coordinates
             mLat = loc.getLatitude();
             mLon = loc.getLongitude();
+
+            Log.d(TAG, "Location received : " + mLat + " " + mLon);
 
             // Get event time
             mSdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US);
@@ -109,16 +113,20 @@ public class LocationReceiver extends BroadcastReceiver {
             // Used for UI update
             onLocationReceived(context, loc, mSignalStrenghts);
 
-            //TODO: put track ID here
-            Track track = mDatabaseManager.queryTrack(1);
-
-
-//            if (mTrackingManager.isTrackingOn()) {
-//                // Add PinPoint record to database
-//                mDatabaseManager.insertPinPoint(track.getId(), mSignalStrenghts, networkTypeForJSON,
-//                        mLac, mCi, mTerminal, mLat, mLon, mOperatorName, track);
-//                startNotification();
-//            }
+            // Do if tracking enabled
+            if (mTrackingManager.isTrackingOn()) {
+                SharedPreferences prefs = mContext.getSharedPreferences(TrackingManager.PREFS_FILE,
+                        Context.MODE_PRIVATE);
+                long trackId = prefs.getLong(TrackingManager.PREF_CURRENT_TRACK_ID, -1);
+                Log.d(TAG, "Track ID: " + trackId);
+                Track track = mDatabaseManager.queryTrack(trackId);
+                // Add PinPoint record to database
+                mDatabaseManager.insertPinPoint(trackId, mSignalStrenghts, networkTypeForJSON,
+                        mLac, mCi, mTerminal, mLat, mLon, mOperatorName, track);
+                startNotification();
+            } else {
+                Log.v(TAG, "PinPoint received with no tracking run; ignoring");
+            }
 
             return;
         }
@@ -143,7 +151,7 @@ public class LocationReceiver extends BroadcastReceiver {
     /**
      * Sends notification of current tracking status
      */
-    public void startNotification() {
+    private void startNotification() {
         mSdf = new SimpleDateFormat("dd.MM HH:mm:ss", Locale.US);
         mEventTime = mSdf.format(new Date());
 
