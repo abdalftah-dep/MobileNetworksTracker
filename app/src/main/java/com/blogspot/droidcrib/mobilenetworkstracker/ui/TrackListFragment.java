@@ -11,12 +11,18 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
+import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,9 +32,7 @@ import javax.inject.Inject;
 
 
 
-public class TrackListFragment
-
-       extends ListFragment
+public class TrackListFragment extends ListFragment
 //        implements LoaderCallbacks<Cursor>
 
 {
@@ -37,11 +41,11 @@ public class TrackListFragment
     private static final int REQUEST_NEW_TRACK = 0;
 
     public static TrackListFragment sTrackListFragment;
-    private Context mContext;
     private Callbacks mCallbacks;
     private long mTrackId;
-    @Inject
-    TrackingManager mTrackingManager;
+    @Inject TrackingManager mTrackingManager;
+    @Inject DatabaseManager mDatabaseManager;
+    private ArrayList<Track> mTracks;
 
 
     public static TrackListFragment getInstance(){
@@ -84,11 +88,19 @@ public class TrackListFragment
         super.onCreate(savedInstanceState);
         sTrackListFragment = this;
         setHasOptionsMenu(true);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        List<Track> allTracks = mDatabaseManager.queryAllTracks();
+        ArrayAdapter<Track> trackArrayAdapter = new ArrayAdapter<Track>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                allTracks);
+//        trackArrayAdapter.addAll(allTracks);
+        setListAdapter(trackArrayAdapter);
+
         registerForContextMenu(getListView());
     }
 

@@ -19,4 +19,8 @@ public class Track extends Model{
     public Track() {
     }
 
+    @Override
+    public String toString() {
+        return startDate.toString();
+    }
 }
