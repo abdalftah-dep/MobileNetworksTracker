@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
     private static final String TAG = "mobilenetworkstracker";
     private ViewPager mViewPager;
     private Menu mMenu;
+    @Inject TelephonyInfo mTelephonyInfo;
     @Inject TrackingManager mTrackingManager;
     @Inject PositioningManager mPositioningManager;
-    @Inject TelephonyInfo mTelephonyInfo;
     @Inject CustomPhoneStateListener mCustomPhoneStateListener;
 
 
@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         setContentView(R.layout.activity_viewpager);
 
         ((MobileNetworksTrackerApp)getApplication()).getBaseComponent().inject(this);
-
-        // Create TrackingManager
-       // mTrackingManager = TrackingManager.get(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -120,16 +117,6 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         if (!mTrackingManager.isTrackingOn()) {
             mPositioningManager.stopLocationUpdates();
             handleNotification(LocationReceiver.ACTION_STOP_NOTIFICATION);
-        }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // stop mobile network listening if track is not recording
-        if (!mTrackingManager.isTrackingOn()) {
-            mTelephonyInfo.stopListener();
         }
     }
 

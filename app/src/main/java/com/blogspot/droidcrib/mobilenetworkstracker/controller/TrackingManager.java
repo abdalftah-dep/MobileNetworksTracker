@@ -60,7 +60,7 @@ public class TrackingManager {
         // Save id in shared prefs
         mPrefs.edit().putLong(PREF_CURRENT_TRACK_ID, mCurrentTrackId).apply();
         mPrefs.edit().putBoolean(PREF_IS_TRACKING_ON, true).apply();
-        Log.d(TAG, "startTracking called");
+        Log.d(TAG, "startTracking called, track ID: " + mCurrentTrackId);
     }
 
 

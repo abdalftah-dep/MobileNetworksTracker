@@ -22,10 +22,7 @@ public class TelephonyInfo {
 
     private TelephonyManager mTelephonyManager;
     private CustomPhoneStateListener mCustomPhoneStateListener;
-    private static TelephonyInfo sTelephonyInfo;
     private Context mContext;
-
-
 
 
     public TelephonyInfo(Context context, CustomPhoneStateListener customPhoneStateListener) {
@@ -45,10 +42,11 @@ public class TelephonyInfo {
      * @return
      */
     public String getNetworkOperator() {
-        if(mTelephonyManager.getNetworkOperatorName() != null) {
+        try {
             return mTelephonyManager.getNetworkOperatorName();
+        } catch (NullPointerException e){
+            return mContext.getResources().getString(R.string.unknown);
         }
-        return mContext.getResources().getString(R.string.unknown);
     }
 
     /**
@@ -56,12 +54,13 @@ public class TelephonyInfo {
      * @return
      */
     public String getLac() {
-        if(mTelephonyManager.getCellLocation() != null) {
+        try {
             GsmCellLocation cellLocation = (GsmCellLocation) mTelephonyManager.getCellLocation();
             int lac = cellLocation.getLac() & 0xffff;
             return String.valueOf(lac);
+        } catch (NullPointerException e) {
+            return mContext.getResources().getString(R.string.unknown);
         }
-        return mContext.getResources().getString(R.string.unknown);
     }
 
     /**
@@ -69,12 +68,13 @@ public class TelephonyInfo {
      * @return
      */
     public String getCi() {
-        if(mTelephonyManager.getCellLocation() != null) {
+        try {
             GsmCellLocation cellLocation = (GsmCellLocation) mTelephonyManager.getCellLocation();
             int ci = cellLocation.getCid() & 0xffff;
             return String.valueOf(ci);
+        } catch (NullPointerException e) {
+            return mContext.getResources().getString(R.string.unknown);
         }
-        return mContext.getResources().getString(R.string.unknown);
     }
 
     /**
@@ -82,10 +82,11 @@ public class TelephonyInfo {
      * @return
      */
     public String getNetworkType() {
-        if(mTelephonyManager.getCellLocation() != null) {
+        try{
             return readNetworkType(mTelephonyManager.getNetworkType());
-        }
+        } catch (NullPointerException e) {
             return mContext.getResources().getString(R.string.unknown);
+        }
     }
 
     /**
@@ -106,13 +107,15 @@ public class TelephonyInfo {
      * @return
      */
     public String getCountryIso() {
-        if(mTelephonyManager.getNetworkCountryIso() != null){
-        return mTelephonyManager.getNetworkCountryIso();
+
+        try {
+            return mTelephonyManager.getNetworkCountryIso();
+        } catch (NullPointerException e) {
+            return mContext.getResources().getString(R.string.unknown);
         }
-        return mContext.getResources().getString(R.string.unknown);
     }
 
-    /**
+    /** TODO: swap with interface
      * Provides network signal strengths in dBm
      * @return
      */
@@ -125,7 +128,6 @@ public class TelephonyInfo {
         mTelephonyManager.listen(mCustomPhoneStateListener, PhoneStateListener.LISTEN_NONE);
         mTelephonyManager = null;
         mCustomPhoneStateListener = null;
-        sTelephonyInfo = null;
     }
 
 
