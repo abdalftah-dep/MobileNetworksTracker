@@ -84,7 +84,7 @@ public class TrackingManager {
      * @return
      */
     public boolean isTrackingOn() {
-        Log.d(TAG, "Is tracking enabled: " + (mPrefs.getBoolean(PREF_IS_TRACKING_ON, false)));
+//        Log.d(TAG, "Is tracking enabled: " + (mPrefs.getBoolean(PREF_IS_TRACKING_ON, false)));
         return mPrefs.getBoolean(PREF_IS_TRACKING_ON, false);
     }
 

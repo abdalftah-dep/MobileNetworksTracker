@@ -83,7 +83,7 @@ public class LocationReceiver extends BroadcastReceiver {
             mLat = loc.getLatitude();
             mLon = loc.getLongitude();
 
-            Log.d(TAG, "Location received : " + mLat + " " + mLon);
+//            Log.d(TAG, "Location received : " + mLat + " " + mLon);
 
             // Get event time
             mSdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.US);

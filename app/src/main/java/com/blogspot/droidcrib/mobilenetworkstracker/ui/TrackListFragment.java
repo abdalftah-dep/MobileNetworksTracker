@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTr
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
+import com.blogspot.droidcrib.mobilenetworkstracker.loaders.TrackLoader;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 
 import java.util.ArrayList;
@@ -32,8 +36,7 @@ import javax.inject.Inject;
 
 
 
-public class TrackListFragment extends ListFragment
-//        implements LoaderCallbacks<Cursor>
+public class TrackListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<?>>
 
 {
 
@@ -53,6 +56,35 @@ public class TrackListFragment extends ListFragment
             sTrackListFragment = new TrackListFragment();
         }
         return sTrackListFragment;
+    }
+
+    @Override
+    public Loader<List<?>> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader() called");
+        return new TrackLoader(getActivity(), mDatabaseManager);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<?>> loader, List<?> data) {
+
+        Log.d(TAG, "onLoadFinished() called");
+        List<Track> trackList = (List<Track>) data;
+        Log.d(TAG, "onLoadFinished: Track list size = " + trackList.size());
+        Log.d(TAG, "onLoadFinished: Track list tracks ");
+                for(int i =0; i < trackList.size(); i++){
+                    Log.d(TAG,
+                            "Track ID: " + trackList.get(i).getId()
+                            + " date " + trackList.get(i).startDate.toString()
+                    );
+                }
+
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<?>> loader) {
+        Log.d(TAG, "onLoaderReset() called");
+
     }
 
     /**
@@ -94,14 +126,18 @@ public class TrackListFragment extends ListFragment
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "TrackListFragment.onResume() ");
+        getLoaderManager().restartLoader(0, null, this);
+
+
         List<Track> allTracks = mDatabaseManager.queryAllTracks();
         ArrayAdapter<Track> trackArrayAdapter = new ArrayAdapter<Track>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 allTracks);
 //        trackArrayAdapter.addAll(allTracks);
         setListAdapter(trackArrayAdapter);
-
         registerForContextMenu(getListView());
+
     }
 
     @Override
