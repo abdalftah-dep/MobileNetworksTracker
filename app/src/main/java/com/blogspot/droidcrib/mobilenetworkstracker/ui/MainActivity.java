@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
                 }
                 //Refresh list of tracks when ListFragment is shown
                 if (position == 1) {
-//                    TrackListFragment.getInstance().getLoaderManager()
-//                            .restartLoader(0, null, TrackListFragment.getInstance());
+                    TrackListFragment.getInstance().refreshTrackList();
                 }
             }
         });
@@ -151,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
                 // Change icon
                 mMenu.getItem(0).setIcon(R.drawable.menu_item_location_off_selector);
 
+                if(TrackListFragment.getInstance().isVisible()){
+                    TrackListFragment.getInstance().refreshTrackList();
+                }
+
             } else if (mTrackingManager.isTrackingOn()) {
 
                 mTrackingManager.stopTracking();
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
 
     /**
      * Interface method TrackListFragment.Callbacks
-     *
+     * Shows selected track on map. Switching to map fragment
      * @param trackId
      */
     @Override

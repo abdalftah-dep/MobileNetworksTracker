@@ -52,4 +52,10 @@ public abstract class DatabaseLoader extends AsyncTaskLoader<List<?>> {
             forceLoad();
         }
     }
+
+    @Override
+    protected void onStopLoading() {
+        super.onStopLoading();
+        cancelLoad();
+    }
 }
