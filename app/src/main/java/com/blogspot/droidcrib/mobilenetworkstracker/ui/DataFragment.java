@@ -47,10 +47,8 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
 
     private Button mButtonJsonUpload;
     private Button mButtonStopService;
-    private Button insertTrack;
     private Button queryAll;
-    private Button queryCondition;
-    private Button dbAction;
+
     @Inject
     TrackingManager mTrackingManager;
     private long mTrackId;
@@ -101,10 +99,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mCountryTextView = (TextView) v.findViewById(R.id.tv_country);
         mJsonPostUrl = (EditText) v.findViewById(R.id.json_post_url);
         mTableLayout = (TableLayout) v.findViewById(R.id.table_indicator);
-        insertTrack = (Button) v.findViewById(R.id.insert_track);
         queryAll = (Button) v.findViewById(R.id.query_all);
-        queryCondition = (Button) v.findViewById(R.id.query_condition);
-        dbAction = (Button) v.findViewById(R.id.db_action);
         mButtonJsonUpload = (Button) v.findViewById(R.id.json_upload);
         mButtonStopService = (Button) v.findViewById(R.id.stop_service);
         return v;
@@ -136,13 +131,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             @Override
             public void onClick(View v) {
                 getActivity().stopService(new Intent(getContext(), UploadDataService.class));
-            }
-        });
-
-        insertTrack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "insertTrack");
             }
         });
 
@@ -185,25 +173,6 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
                 }
 
 
-            }
-        });
-
-        queryCondition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-            }
-        });
-
-        dbAction.setOnClickListener(new View.OnClickListener() {
-            int i = 1;
-
-            @Override
-            public void onClick(View v) {
-                mDatabaseManager.deleteTrack(i);
-                i++;
             }
         });
     }

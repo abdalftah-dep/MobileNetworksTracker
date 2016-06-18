@@ -176,7 +176,8 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
 
     /**
      * Interface method TrackListFragment.Callbacks
-     * Shows selected track on map. Switching to map fragment
+     * Passes track ID to MapFragment in order to show selected track on map.
+     * Switching to map fragment
      * @param trackId
      */
     @Override
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
                 .findFragmentByTag("android:switcher:" + R.id.pager + ":" + mViewPager.getCurrentItem());
         if (fragment != null) {
             // pass current trackId to fragment if fragment exist
-//            ((TrackMapFragment) fragment).onTrackSelected(trackId);
+            ((TrackMapFragment) fragment).onTrackSelected(trackId);
         }
     }
 

@@ -13,18 +13,15 @@ import java.util.List;
  */
 public class TrackLoader extends DatabaseLoader {
 
-    private static final String TAG = "mobilenetworkstracker";
     private DatabaseManager mDatabaseManager;
 
     public TrackLoader(Context context, DatabaseManager databaseManager) {
         super(context);
         mDatabaseManager = databaseManager;
-        Log.d(TAG, "TrackLoader() ");
     }
 
     @Override
     public List<?> loadList() {
-        Log.d(TAG, "Loading LIST ");
         return mDatabaseManager.queryAllTracks();
     }
 }

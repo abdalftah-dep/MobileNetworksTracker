@@ -38,17 +38,13 @@ import javax.inject.Inject;
 
 
 
-public class TrackListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<?>>
-
-{
+public class TrackListFragment extends ListFragment
+        implements LoaderManager.LoaderCallbacks<List<?>> {
 
     private static final String TAG = "mobilenetworkstracker";
-    private static final int REQUEST_NEW_TRACK = 0;
-
     public static TrackListFragment sTrackListFragment;
     private Callbacks mCallbacks;
     private long mTrackId;
-    private int mTrackPosition;
     @Inject TrackingManager mTrackingManager;
     @Inject DatabaseManager mDatabaseManager;
     private ArrayList<Track> mTracks;
@@ -61,19 +57,23 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
         return sTrackListFragment;
     }
 
+    /*
+     *  Loader callbacks
+     */
+
     @Override
     public Loader<List<?>> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader() called");
+//        Log.d(TAG, "onCreateLoader() called");
         return new TrackLoader(getActivity(), mDatabaseManager);
     }
 
     @Override
     public void onLoadFinished(Loader<List<?>> loader, List<?> data) {
 
-        Log.d(TAG, "onLoadFinished() called");
+//        Log.d(TAG, "onLoadFinished() called");
         List<Track> trackList = (List<Track>) data;
-        Log.d(TAG, "onLoadFinished: Track list size = " + trackList.size());
-        Log.d(TAG, "onLoadFinished: Track list tracks ");
+//        Log.d(TAG, "onLoadFinished: Track list size = " + trackList.size());
+//        Log.d(TAG, "onLoadFinished: Track list tracks ");
                 for(int i =0; i < trackList.size(); i++){
                     Log.d(TAG,
                             "Track ID: " + trackList.get(i).getId()
@@ -87,15 +87,16 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<?>> loader) {
-        Log.d(TAG, "onLoaderReset() called");
+//        Log.d(TAG, "onLoaderReset() called");
         setListAdapter(null);
     }
 
-    /**
+    /*
      * Interface for host activity
      */
 
     public interface  Callbacks{
+        // Pass track ID to MapFragment
         void onTrackSelected(long trackId);
     }
 
@@ -110,6 +111,8 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
         super.onDetach();
         mCallbacks = null;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -130,7 +133,7 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "TrackListFragment.onResume() ");
+//        Log.d(TAG, "TrackListFragment.onResume() ");
         refreshTrackList();
         registerForContextMenu(getListView());
 
@@ -139,14 +142,14 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Log.d(TAG, "Selected track.ID " + id);
-        Log.d(TAG, "Selected track.POSITION " + position);
+//        Log.d(TAG, "Selected track.ID " + id);
+//        Log.d(TAG, "Selected track.POSITION " + position);
         mCallbacks.onTrackSelected(id);
     }
 
 
     /*
-        Context menu methods
+     *   Context menu methods
      */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -154,7 +157,6 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
         // Get long-pressed item id
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         mTrackId = info.id;
-        mTrackPosition = info.position;
     }
 
     @Override
@@ -167,7 +169,6 @@ public class TrackListFragment extends ListFragment implements LoaderManager.Loa
                 refreshTrackList();
                 return true;
         }
-
         return super.onContextItemSelected(item);
     }
 
