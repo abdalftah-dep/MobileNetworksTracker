@@ -82,7 +82,6 @@ public class PostGetIntentService extends IntentService {
 //
 //        // Query records of all not uploaded points
 //        DatabaseHelper.PinPointCursor cur = mTrackManager.queryAllNotUploadedPinPoints();
-//
 //        if (cur != null) {
 //            int maxRecords = cur.getCount();
 //            int progress = 0;

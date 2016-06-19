@@ -58,4 +58,6 @@ public abstract class DatabaseLoader extends AsyncTaskLoader<List<?>> {
         super.onStopLoading();
         cancelLoad();
     }
+
+
 }

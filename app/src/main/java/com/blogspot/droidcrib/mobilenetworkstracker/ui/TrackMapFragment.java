@@ -126,6 +126,7 @@ public class TrackMapFragment extends SupportMapFragment
                 new IntentFilter(mPositioningManager.ACTION_LOCATION_CHANGED));
         Location lastKnownLocation = mPositioningManager.getLastKnownLocation();
         if (lastKnownLocation != null) {
+            //TODO take RSSI from interface here
             drawRealTimePoint(lastKnownLocation, CustomPhoneStateListener.sSignalStrengths);
         }
     }
@@ -142,7 +143,7 @@ public class TrackMapFragment extends SupportMapFragment
                 mLatNe = bounds.northeast.latitude;
                 mLonNe = bounds.northeast.longitude;
                 mCurrentZoom = mGoogleMap.getCameraPosition().zoom;
-//                getLoaderManager().restartLoader(LOAD_LOCATIONS, null, mTrackMapFragment);
+                getLoaderManager().restartLoader(LOAD_LOCATIONS, null, mTrackMapFragment);
             }
         });
     }
