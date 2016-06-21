@@ -5,6 +5,8 @@ import android.app.Application;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.PositioningManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
 
@@ -35,6 +37,19 @@ public class ControllerModule {
     DatabaseManager providesDatabaseManager(){
         return new DatabaseManager();
     }
+
+    @Provides
+    @Singleton
+    GsonBuilder providesGsonBuilder(){
+        return new GsonBuilder();
+    }
+
+    @Provides
+    @Singleton
+    Gson providesGson(){
+        return new Gson();
+    }
+
 
 
 }

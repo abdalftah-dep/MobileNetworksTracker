@@ -3,6 +3,8 @@ package com.blogspot.droidcrib.mobilenetworkstracker.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,37 +21,84 @@ public class PinPoint extends Model{
 
     public static final String TAG = "mobilenetworkstracker";
 
+    @Expose
+    @SerializedName("signStr")
     @Column(name = "signal_strengths")
     public double signalStrengths;
+
+    @Expose
+    @SerializedName("networkType")
     @Column(name = "network_type")
     public String networkType;
+
+    @Expose
+    @SerializedName("lac")
     @Column(name = "lac")
     public String lac;
+
+    @Expose
+    @SerializedName("ci")
     @Column(name = "ci")
     public String ci;
+
+    @Expose
+    @SerializedName("terminal")
     @Column(name = "terminal")
     public String terminal;
+
+    @Expose
+    @SerializedName("latitude")
     @Column(name = "lat")
     public double lat;
+
+    @Expose
+    @SerializedName("longitude")
     @Column(name = "lon")
     public double lon;
+
+    @Expose
+    @SerializedName("eventTime")
     @Column(name = "event_time")
     public long eventTime;
+
+    @Expose
+    @SerializedName("operator")
     @Column(name = "operator")
     public String operator;
+
+    @Expose
+    @SerializedName("location")
     @Column(name = "country")
     public String country;
+
+
     @Column(name = "upload")
     public boolean upload;
     @Column(name = "Track", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public Track track;
+
     @Column(name = "track_id")
     public long trackId;
+
+    // JSON fields required by server
+    @Expose
+    @SerializedName("id")
+    public final long zeroId = 0;
+
+    @Expose
+    @SerializedName("uploadTime")
+    public long uploadTime = System.currentTimeMillis();
 
 
     public PinPoint() {
         super();
     }
+
+//    @Override
+//    public String toString() {
+//        String str = "";
+//        return str.concat("signStr:").concat(signalStrengths);
+//    }
 
     //    private static final String JSON_ID = "id";
 //    private static final String JSON_SIGNAL_STRENGHTS = "signStr";

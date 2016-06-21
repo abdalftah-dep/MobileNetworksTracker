@@ -21,7 +21,7 @@ public class UploadDataService extends Service {
         //String url = "http://httpbin.org/post";
         String url = "http://" + ip + ":8080/GeoMap/webapi/data/add";
         Log.d(TAG, "JSON URL: " + url);
-        //.PostGetIntentService.startActionPostLocations(getApplication(), url);
+        PostGetIntentService.startActionPostLocations(getApplication(), url);
 
         return START_REDELIVER_INTENT;
     }

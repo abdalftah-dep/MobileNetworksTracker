@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
+import com.blogspot.droidcrib.mobilenetworkstracker.model.ModelTest;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
@@ -23,7 +24,14 @@ import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListener
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -130,7 +138,24 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mButtonStopService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().stopService(new Intent(getContext(), UploadDataService.class));
+                //getActivity().stopService(new Intent(getContext(), UploadDataService.class));
+
+                PinPoint pinPoint = mDatabaseManager.queryFirstNotUploadedPinPoint();
+
+//                ModelTest modelTest = new ModelTest();
+//                modelTest.lac = "12345";
+//                modelTest.networkType = "UMTS";
+//                modelTest.signalStrengths = -67;
+
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                Gson gson = gsonBuilder
+                        .excludeFieldsWithoutExposeAnnotation()
+                        .setPrettyPrinting().create();
+                String jsonOutput = gson.toJson(pinPoint);
+
+                Log.d(TAG, "Pinpoint json: " + jsonOutput);
+
+
             }
         });
 
@@ -264,4 +289,11 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
             updateUI();
         }
     }
+
+//    static class PinpointSerializer implements JsonSerializer<PinPoint>{
+//        @Override
+//        public JsonElement serialize(PinPoint src, Type typeOfSrc, JsonSerializationContext context) {
+//            return new JsonPrimitive(src.lac);
+//        }
+//    }
 }

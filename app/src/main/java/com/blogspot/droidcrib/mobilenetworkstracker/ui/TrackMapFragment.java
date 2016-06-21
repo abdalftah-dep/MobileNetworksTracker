@@ -53,7 +53,6 @@ public class TrackMapFragment extends SupportMapFragment
 
     private GoogleMap mGoogleMap;
     private SharedPreferences mPrefs;
-    private long mCurrentTrackId = -1;
     private long mSelectedTrackId = -1;
     private double mLatSw;
     private double mLonSw;
@@ -100,7 +99,6 @@ public class TrackMapFragment extends SupportMapFragment
         super.onCreate(savedInstanceState);
         mTrackMapFragment = this;
         mPrefs = getActivity().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
-        mCurrentTrackId = mPrefs.getLong(PREF_CURRENT_TRACK_ID, -1);
     }
 
     @Override
