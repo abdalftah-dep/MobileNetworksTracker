@@ -42,8 +42,8 @@ public class UploadDataService extends Service {
 
         String ip = intent.getStringExtra("ipAddress");
 
-        String url = "http://httpbin.org/post";
-        //String url = "http://139.59.165.59" + ip + ":8080/GeoMap/webapi/data/add";
+        //String url = "http://httpbin.org/post";
+        String url = "http://139.59.165.59" + ip + ":8080/GeoMap/webapi/data/add";
         Log.d(TAG, "JSON URL: " + url);
         if(isConnected()) {
             PostGetIntentService.startActionPostLocations(getApplication(), url);

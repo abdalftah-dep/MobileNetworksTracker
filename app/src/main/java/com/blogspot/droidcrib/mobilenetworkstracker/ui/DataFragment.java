@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
-import com.blogspot.droidcrib.mobilenetworkstracker.model.ModelTest;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.Track;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
@@ -24,14 +23,7 @@ import com.blogspot.droidcrib.mobilenetworkstracker.telephony.PhoneStateListener
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.inject.Inject;
