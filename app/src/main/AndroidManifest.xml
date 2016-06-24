@@ -60,7 +60,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDwMTVMFz_fai8KlWU2f4bCp1s3UCvPxoA" />
+            android:value="AIzaSyA86V1rTIjdOjjb3GjwwjOxvdpCvqZNnzM" />
         <!-- Home Computer Debug Key  android:value="AIzaSyDwMTVMFz_fai8KlWU2f4bCp1s3UCvPxoA" -->
         <!-- Work Computer Debug Key  android:value="AIzaSyA86V1rTIjdOjjb3GjwwjOxvdpCvqZNnzM" -->
 

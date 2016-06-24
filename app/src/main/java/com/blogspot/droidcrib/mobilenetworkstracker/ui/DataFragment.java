@@ -138,24 +138,7 @@ public class DataFragment extends Fragment implements PhoneStateListenerInterfac
         mButtonStopService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getActivity().stopService(new Intent(getContext(), UploadDataService.class));
-
-                PinPoint pinPoint = mDatabaseManager.queryFirstNotUploadedPinPoint();
-
-//                ModelTest modelTest = new ModelTest();
-//                modelTest.lac = "12345";
-//                modelTest.networkType = "UMTS";
-//                modelTest.signalStrengths = -67;
-
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder
-                        .excludeFieldsWithoutExposeAnnotation()
-                        .setPrettyPrinting().create();
-                String jsonOutput = gson.toJson(pinPoint);
-
-                Log.d(TAG, "Pinpoint json: " + jsonOutput);
-
-
+                getActivity().stopService(new Intent(getContext(), UploadDataService.class));
             }
         });
 

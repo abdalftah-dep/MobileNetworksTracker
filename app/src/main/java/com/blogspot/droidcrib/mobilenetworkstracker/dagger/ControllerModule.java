@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by Andrey on 05.06.2016.
@@ -48,6 +49,12 @@ public class ControllerModule {
     @Singleton
     Gson providesGson(){
         return new Gson();
+    }
+
+    @Provides
+    @Singleton
+    OkHttpClient providesOkHttpClient(){
+        return new OkHttpClient();
     }
 
 

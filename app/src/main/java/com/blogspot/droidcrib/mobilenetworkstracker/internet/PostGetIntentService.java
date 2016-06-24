@@ -1,21 +1,29 @@
 package com.blogspot.droidcrib.mobilenetworkstracker.internet;
 
+import android.app.Application;
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.controller.NotificationProvider;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -36,7 +44,12 @@ public class PostGetIntentService extends IntentService {
 
 
     public static final String TAG = "mobilenetworkstracker";
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final int ID_NOTIFICATION_UPLOAD = 1;
+    private int max = 0;
+
     NotificationManager mNotificationManager;
+
     PinPoint mPinPoint;
     @Inject
     TrackingManager mTrackManager;
@@ -46,8 +59,12 @@ public class PostGetIntentService extends IntentService {
     GsonBuilder mGsonBuilder;
     @Inject
     Gson mGson;
+    @Inject
+    OkHttpClient mOkHttpClient;
+    @Inject
+    Application mApplication;
 
-    private static final int ID_NOTIFICATION_UPLOAD = 1;
+
     private static final String ACTION_POST_LOCATIONS = "com.blogspot.droidcrib.mobilenetworkstracker.action.POST_LOCATIONS";
     private static final String EXTRA_POST_URL = "com.blogspot.droidcrib.mobilenetworkstracker.extra.POST_URL";
 
@@ -73,11 +90,14 @@ public class PostGetIntentService extends IntentService {
     public void onCreate() {
         super.onCreate();
         ((MobileNetworksTrackerApp) getApplication()).getBaseComponent().inject(this);
+        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        max = mDatabaseManager.queryCountOfNotUploadedPinpoints();
+        Log.d(TAG, "CountOfNotUploadedPinpoints = " + max);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_POST_LOCATIONS.equals(action)) {
@@ -93,33 +113,63 @@ public class PostGetIntentService extends IntentService {
      */
     private void handleActionPostLocations(String urlPost) {
 
-        while((mPinPoint = mDatabaseManager.queryFirstNotUploadedPinPoint()) != null) {
+        // Generate JSON
+        mGson = mGsonBuilder
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting().create();
 
-            mGsonBuilder = new GsonBuilder();
-            mGson = mGsonBuilder
-                    .excludeFieldsWithoutExposeAnnotation()
-                    .setPrettyPrinting().create();
+        int i = 0;
+        while ((mPinPoint = mDatabaseManager.queryFirstNotUploadedPinPoint()) != null) {
+
             String jsonOutput = mGson.toJson(mPinPoint);
-
             Log.d(TAG, "Pinpoint json: " + jsonOutput);
+            mNotificationManager.notify(ID_NOTIFICATION_UPLOAD, NotificationProvider.uploadProgress(this, max, ++i));
 
-            mDatabaseManager.updateUploadedPinPoint(mPinPoint.getId());
+            try {
+                String postResp = postJson(urlPost, jsonOutput);
+                Log.d(TAG, "POST responce: " + postResp);
+            } catch (IOException e) {
+                Log.d(TAG, "POST IOException: " + e.toString());
+                break;
+            } catch (IllegalArgumentException e) {
+                Log.d(TAG, "POST IllegalArgumentException: " + e.toString());
+                break;
+            } catch (IllegalStateException e) {
+                Log.d(TAG, "POST IllegalStateException: " + e.toString());
+                break;
+            }
 
         }
+
+        mNotificationManager.notify(ID_NOTIFICATION_UPLOAD, NotificationProvider.uploadFinished(this));
     }
 
-    /**
-     * Sends notification of download progress
-     */
-    private void notificationProgress(int maximum, int progress) {
-        Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(android.R.drawable.ic_menu_zoom)
-                .setContentTitle("Data upload is in progress")
-                .setProgress(maximum, progress, false)
+
+    private String postJson(String url, String json) throws IOException,
+            IllegalArgumentException, IllegalStateException {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
                 .build();
-        mNotificationManager.notify(ID_NOTIFICATION_UPLOAD, notification);
 
+        Response response = mOkHttpClient.newCall(request).execute();
+        // Set pinpoint status as Uploaded
+        mDatabaseManager.updateUploadedPinPoint(mPinPoint.getId());
+        return response.body().string();
     }
 
 
+    private void stopUploadingService() {
+        Intent uploadDataService = new Intent(mApplication, UploadDataService.class);
+        stopService(uploadDataService);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "PostGetIntentService.onDestroy()");
+    }
+
+    // TODO: Call uploadProgress from here with the samr ID as in UploadDataService
 }

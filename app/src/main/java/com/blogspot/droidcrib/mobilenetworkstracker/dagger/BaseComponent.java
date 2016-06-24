@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.mobilenetworkstracker.dagger;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.internet.PostGetIntentService;
+import com.blogspot.droidcrib.mobilenetworkstracker.internet.UploadDataService;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.CustomPhoneStateListener;
 import com.blogspot.droidcrib.mobilenetworkstracker.telephony.TelephonyInfo;
 import com.blogspot.droidcrib.mobilenetworkstracker.ui.DataFragment;
@@ -26,6 +27,7 @@ public interface BaseComponent {
     void inject(TrackMapFragment trackMapFragment);
     void inject(TrackListFragment trackListFragment);
     void inject(PostGetIntentService postGetIntentService);
+    void inject(UploadDataService uploadDataService);
     TelephonyInfo getTelephonyInfo();
     TrackingManager getTrackManager();
     DatabaseManager getDatabaseManager();

@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements TrackListFragment
         if (!mPositioningManager.isLocationUpdatesEnabled()) {
             mPositioningManager.startLocationUpdates();
         }
+
+        
     }
 
     @Override

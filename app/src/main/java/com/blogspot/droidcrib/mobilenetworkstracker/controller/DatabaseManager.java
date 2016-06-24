@@ -89,6 +89,13 @@ public class DatabaseManager {
                 .execute();
     }
 
+    public int queryCountOfNotUploadedPinpoints(){
+        return new Select()
+                .from(PinPoint.class)
+                .where("upload = ?", false)
+                .count();
+    }
+
     /**
      * Marking current pinpoint as uploaded by setting field "upload" with "true" value
      * @param pinpointId
