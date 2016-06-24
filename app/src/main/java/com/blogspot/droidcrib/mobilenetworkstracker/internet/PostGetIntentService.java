@@ -11,9 +11,12 @@ import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTr
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.NotificationProvider;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.TrackingManager;
+import com.blogspot.droidcrib.mobilenetworkstracker.eventbus.UploadFinished;
 import com.blogspot.droidcrib.mobilenetworkstracker.model.PinPoint;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
@@ -138,10 +141,9 @@ public class PostGetIntentService extends IntentService {
                 Log.d(TAG, "POST IllegalStateException: " + e.toString());
                 break;
             }
-
         }
+        EventBus.getDefault().post(new UploadFinished("Checking data pass from event bus"));
 
-        mNotificationManager.notify(ID_NOTIFICATION_UPLOAD, NotificationProvider.uploadFinished(this));
     }
 
 
@@ -170,6 +172,4 @@ public class PostGetIntentService extends IntentService {
         super.onDestroy();
         Log.d(TAG, "PostGetIntentService.onDestroy()");
     }
-
-    // TODO: Call uploadProgress from here with the samr ID as in UploadDataService
 }

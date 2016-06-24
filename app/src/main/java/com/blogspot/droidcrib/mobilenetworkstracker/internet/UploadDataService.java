@@ -11,6 +11,10 @@ import android.util.Log;
 import com.blogspot.droidcrib.mobilenetworkstracker.application.MobileNetworksTrackerApp;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.DatabaseManager;
 import com.blogspot.droidcrib.mobilenetworkstracker.controller.NotificationProvider;
+import com.blogspot.droidcrib.mobilenetworkstracker.eventbus.UploadFinished;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
@@ -20,11 +24,21 @@ public class UploadDataService extends Service {
 
     public static final String TAG = "mobilenetworkstracker";
     private static final int ID_NOTIFICATION_UPLOAD = 1;
+    NotificationManager mNotificationManager;
     @Inject
     DatabaseManager databaseManager;
 
     public UploadDataService() {
         Log.d(TAG, "UploadDataService()");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        ((MobileNetworksTrackerApp) getApplication()).getBaseComponent().inject(this);
+        EventBus.getDefault().register(this);
+        Log.d(TAG, "UploadDataService.onCreate()");
     }
 
     @Override
@@ -59,17 +73,12 @@ public class UploadDataService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-//        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        ((MobileNetworksTrackerApp) getApplication()).getBaseComponent().inject(this);
-        Log.d(TAG, "UploadDataService.onCreate()");
-    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         Log.d(TAG, "UploadDataService.onDestroy()");
     }
 
@@ -85,5 +94,12 @@ public class UploadDataService extends Service {
         } else {
             return false;
         }
+    }
+
+    @Subscribe
+    public void onEvent(UploadFinished uploadFinishedEvent){
+        Log.d(TAG, "Message received from IntentService: "  + uploadFinishedEvent.message);
+        stopForeground(true);
+        mNotificationManager.notify(ID_NOTIFICATION_UPLOAD, NotificationProvider.uploadFinished(this));
     }
 }
